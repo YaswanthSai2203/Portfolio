@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: oklch(0.13 0.02 260);
+  --color-foreground: oklch(0.98 0.005 260);
+  --color-muted: oklch(0.65 0.02 260);
+  --color-card: oklch(0.18 0.025 260);
+  --color-card-foreground: oklch(0.96 0.01 260);
+  --color-border: oklch(0.32 0.04 260);
+  --color-primary: oklch(0.72 0.19 250);
+  --color-primary-foreground: oklch(0.13 0.02 260);
+  --color-accent: oklch(0.78 0.15 195);
+  --color-ring: oklch(0.72 0.19 250);
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
+.light {
+  --color-background: oklch(0.99 0.005 260);
+  --color-foreground: oklch(0.18 0.02 260);
+  --color-muted: oklch(0.45 0.02 260);
+  --color-card: oklch(1 0 0 / 0.72);
+  --color-card-foreground: oklch(0.2 0.02 260);
+  --color-border: oklch(0.88 0.02 260);
+  --color-primary: oklch(0.52 0.2 260);
+  --color-primary-foreground: oklch(0.99 0 0);
+  --color-accent: oklch(0.55 0.14 200);
+  --color-ring: oklch(0.52 0.2 260);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  @apply bg-primary/30 text-foreground;
+}
+
+.glass {
+  @apply border border-border/60 bg-card/40 backdrop-blur-xl shadow-[0_8px_32px_oklch(0_0_0/0.35)];
+}
+
+.light .glass {
+  @apply bg-card/70 shadow-[0_8px_32px_oklch(0_0_0/0.08)];
+}
+
+.neu-inset {
+  box-shadow:
+    inset 2px 2px 6px oklch(0 0 0 / 0.25),
+    inset -2px -2px 6px oklch(1 0 0 / 0.04);
+}
+
+.light .neu-inset {
+  box-shadow:
+    inset 2px 2px 8px oklch(0 0 0 / 0.06),
+    inset -2px -2px 8px oklch(1 0 0 / 0.9);
+}
+
+.glow-text {
+  text-shadow: 0 0 40px oklch(0.72 0.19 250 / 0.45);
+}
+
+.mesh-gradient {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -20%, oklch(0.55 0.22 280 / 0.35), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 0%, oklch(0.65 0.18 220 / 0.25), transparent),
+    radial-gradient(ellipse 50% 60% at 50% 100%, oklch(0.55 0.15 195 / 0.2), transparent),
+    var(--color-background);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.02);
+  }
+}
+
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    filter: blur(40px);
+  }
+  50% {
+    opacity: 0.75;
+    filter: blur(56px);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 5s ease-in-out infinite;
+}

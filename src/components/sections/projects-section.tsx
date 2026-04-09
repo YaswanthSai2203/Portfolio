@@ -141,8 +141,8 @@ export function ProjectsSection() {
 
                 <div className="space-y-6 text-sm">
                   <section>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
-                      Problem
+                    <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                      <span aria-hidden>🧩</span> Problem
                     </h4>
                     <p className="mt-2 leading-relaxed text-muted">
                       {detailProject.problem}
@@ -150,8 +150,8 @@ export function ProjectsSection() {
                   </section>
 
                   <section>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
-                      Architecture
+                    <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                      <span aria-hidden>🏗️</span> Architecture
                     </h4>
                     <pre className="mt-2 overflow-x-auto rounded-xl border border-border/50 bg-background/70 p-3 text-[9px] leading-tight text-foreground/90">
                       {detailProject.architectureLines.join("\n")}
@@ -159,8 +159,8 @@ export function ProjectsSection() {
                   </section>
 
                   <section>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
-                      Tech decisions
+                    <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                      <span aria-hidden>⚙️</span> Tech decisions
                     </h4>
                     <ul className="mt-2 space-y-3">
                       {detailProject.techDecisions.map((d) => (
@@ -178,8 +178,8 @@ export function ProjectsSection() {
                   </section>
 
                   <section>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
-                      Metrics
+                    <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                      <span aria-hidden>📊</span> Metrics
                     </h4>
                     <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
                       {detailProject.metrics.map((m) => (
@@ -200,8 +200,8 @@ export function ProjectsSection() {
                   </section>
 
                   <section>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
-                      Challenges & solutions
+                    <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                      <span aria-hidden>🎯</span> Challenges & solutions
                     </h4>
                     <ul className="mt-2 space-y-3">
                       {detailProject.challenges.map((c) => (

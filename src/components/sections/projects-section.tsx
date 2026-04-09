@@ -13,7 +13,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,6 +21,11 @@ export function ProjectsSection() {
   const reduced = useReducedMotion();
   const ref = React.useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [detailOpen, setDetailOpen] = React.useState(false);
+  const [detailId, setDetailId] = React.useState<string | null>(null);
+  const detailProject = detailId
+    ? projects.find((p) => p.id === detailId)
+    : undefined;
 
   return (
     <section
@@ -95,61 +99,78 @@ export function ProjectsSection() {
                       </div>
                     ))}
                   </div>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="secondary"
-                        className="w-full border-border/70 group-hover:border-primary/40"
-                      >
-                        View details
-                        <Layers className="h-4 w-4 opacity-70" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle>{project.title}</DialogTitle>
-                        <DialogDescription>{project.tagline}</DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4 text-sm text-muted">
-                        <p className="text-foreground/90">{project.detail}</p>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                            Stack
-                          </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {project.stack.map((s) => (
-                              <span
-                                key={s}
-                                className="rounded-full border border-border/60 px-2 py-0.5 text-xs"
-                              >
-                                {s}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                            Outcomes
-                          </p>
-                          <ul className="mt-2 space-y-1">
-                            {project.metrics.map((m) => (
-                              <li key={m.label}>
-                                <span className="font-medium text-foreground">
-                                  {m.value}
-                                </span>{" "}
-                                {m.label} — {m.detail}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="w-full border-border/70 group-hover:border-primary/40"
+                    onClick={() => {
+                      setDetailId(project.id);
+                      setDetailOpen(true);
+                    }}
+                  >
+                    View details
+                    <Layers className="h-4 w-4 opacity-70" />
+                  </Button>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
+
+        <Dialog
+          open={detailOpen}
+          onOpenChange={(open) => {
+            setDetailOpen(open);
+            if (!open) setDetailId(null);
+          }}
+        >
+          <DialogContent
+            key={detailId ?? "closed"}
+            className="max-h-[85vh] overflow-y-auto sm:max-w-lg"
+          >
+            {detailProject ? (
+              <>
+                <DialogHeader>
+                  <DialogTitle>{detailProject.title}</DialogTitle>
+                  <DialogDescription>{detailProject.tagline}</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 text-sm text-muted">
+                  <p className="text-foreground/90">{detailProject.detail}</p>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted">
+                      Stack
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {detailProject.stack.map((s) => (
+                        <span
+                          key={s}
+                          className="rounded-full border border-border/60 px-2 py-0.5 text-xs"
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted">
+                      Outcomes
+                    </p>
+                    <ul className="mt-2 space-y-1">
+                      {detailProject.metrics.map((m) => (
+                        <li key={m.label}>
+                          <span className="font-medium text-foreground">
+                            {m.value}
+                          </span>{" "}
+                          {m.label} — {m.detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </>
+            ) : null}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );

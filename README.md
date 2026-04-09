@@ -26,9 +26,11 @@ src/
     use-count-up.ts
   lib/
     data.ts              # Copy: profile, skills, experience, projects
+    resume.ts            # Server: find single PDF in /public
+    resume-download-name.ts
     utils.ts             # cn()
 public/
-  alex-morgan-resume.txt # Replace with your PDF; update Hero download href
+  (exactly one .pdf — your resume; /api/resume picks it up automatically)
 ```
 
 ## Scripts
@@ -50,8 +52,8 @@ public/
 
 ## Personalization
 
-- Edit **`src/lib/data.ts`**: name, links, summary, skills, Raymond James / Wipro timeline, projects.
-- Replace **`public/alex-morgan-resume.txt`** with your resume (PDF recommended) and point the hero button to `/your-resume.pdf`.
+- Edit **`src/lib/data.ts`**: **`profile.name`** (used in hero, header wordmark, footer, tab title via `layout.tsx`), links, summary, skills, experience, projects.
+- Put **exactly one** file named **`*.pdf`** in **`public/`** (no other PDFs). **`GET /api/resume`** finds it at runtime and sends it as a download; the suggested filename is derived from **`profile.name`** (e.g. `Jane-Doe-Resume.pdf`).
 
 ## Deployment
 

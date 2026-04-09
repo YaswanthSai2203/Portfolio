@@ -1,4 +1,5 @@
 export const profile = {
+  /** Hero, header, footer, tab title (layout), resume download filename */
   name: "Sai Satish Sreerama",
   title: "Full Stack .NET Engineer",
   email: "saisatishsreerama@gmail.com",

@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import {
   AboutSection,
   AISection,
+  CertificationsSection,
   ContactSection,
   ExperienceSection,
   ProjectsSection,
@@ -25,6 +26,7 @@ export default function HomePage() {
         <AboutSection />
         <SkillsSection />
         <ExperienceSection />
+        <CertificationsSection />
         <ProjectsSection />
         <AISection />
         <ContactSection />

@@ -171,6 +171,80 @@ export const projects = [
   },
 ];
 
+export type CertificationCategory = "agile" | "cloud" | "experience";
+
+export const certificationCategoryLabels: Record<
+  CertificationCategory,
+  string
+> = {
+  agile: "Agile & product",
+  cloud: "Cloud",
+  experience: "Experience programs",
+};
+
+export const certifications = [
+  {
+    id: "atlassian-agile-pro",
+    title: "Atlassian Agile Project Management Professional Certificate",
+    issuer: "Atlassian",
+    issuedLabel: "Mar 2026",
+    issuedIso: "2026-03-01",
+    expiresLabel: null as string | null,
+    expiresIso: null as string | null,
+    credentialId: null as string | null,
+    verifyUrl: null as string | null,
+    category: "agile" as CertificationCategory,
+    skills: ["Agile", "Jira", "Sprint planning", "Delivery leadership"],
+    summary:
+      "End-to-end agile project management with Atlassian tooling—backlogs, boards, and stakeholder-ready reporting.",
+  },
+  {
+    id: "pspo-i",
+    title: "Professional Scrum Product Owner™ I (PSPO I)",
+    issuer: "Scrum.org",
+    issuedLabel: "Mar 2026",
+    issuedIso: "2026-03-01",
+    expiresLabel: null,
+    expiresIso: null,
+    credentialId: null,
+    verifyUrl: "https://www.scrum.org/certificates",
+    category: "agile",
+    skills: ["Scrum", "Product ownership", "Backlog", "Value delivery"],
+    summary:
+      "Scrum.org credential for product vision, backlog ordering, and maximizing value within empirical process control.",
+  },
+  {
+    id: "azure-developer-associate",
+    title: "Microsoft Certified: Azure Developer Associate",
+    issuer: "Microsoft",
+    issuedLabel: "May 2025",
+    issuedIso: "2025-05-01",
+    expiresLabel: "May 2026",
+    expiresIso: "2026-05-01",
+    credentialId: "CB4D1D499DB27310",
+    verifyUrl: "https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/",
+    category: "cloud",
+    skills: ["Azure", "App Service", "APIs", "Security", "Storage", "CI/CD"],
+    summary:
+      "Builds, deploys, and secures cloud-native apps on Azure—aligned with how I ship production .NET services.",
+  },
+  {
+    id: "jpmc-agile-vexp",
+    title: "Agile Virtual Experience Program",
+    issuer: "JPMorganChase",
+    issuedLabel: "Jul 2023",
+    issuedIso: "2023-07-01",
+    expiresLabel: null,
+    expiresIso: null,
+    credentialId: "BL3bh9LRZeSCbRtp8",
+    verifyUrl: null,
+    category: "experience",
+    skills: ["Agile ceremonies", "Enterprise context", "Technical storytelling"],
+    summary:
+      "Virtual program applying agile workflows in a global financial services setting—bridging delivery and compliance.",
+  },
+] as const;
+
 export const aiHighlights = [
   {
     title: "LLM Integration",

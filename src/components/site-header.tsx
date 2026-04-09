@@ -15,6 +15,7 @@ const nav = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
+  { href: "#certifications", label: "Certs" },
   { href: "#projects", label: "Projects" },
   { href: "#ai", label: "AI" },
   { href: "#contact", label: "Contact" },

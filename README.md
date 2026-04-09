@@ -16,7 +16,7 @@ src/
     api/resume/route.ts
   components/
     ui/                  # Button, Card, Dialog, Input, Label, Textarea
-    sections/            # Hero, About, Skills, Experience, Projects, AI, Contact
+    sections/            # Hero, About, Skills, Experience, Certs, Projects, AI, Contact
     lazy-sections.tsx    # next/dynamic wrappers + skeletons (lazy loading)
     site-header.tsx      # Nav, socials, theme toggle
     site-footer.tsx
@@ -54,7 +54,7 @@ public/
 
 ## Personalization
 
-- Edit **`src/lib/data.ts`**: **`profile.name`** (used in hero, header wordmark, footer, tab title via `layout.tsx`), links, summary, skills, experience, projects.
+- Edit **`src/lib/data.ts`**: **`profile.name`** (used in hero, header wordmark, footer, tab title via `layout.tsx`), links, summary, skills, experience, **`certifications`** (badges, filters, skill tags), projects.
 - Put **exactly one** file named **`*.pdf`** in **`public/`** (no other PDFs). **`GET /api/resume`** finds it at runtime and sends it as a download; the suggested filename is derived from **`profile.name`** (e.g. `Jane-Doe-Resume.pdf`).
 
 ## Deployment

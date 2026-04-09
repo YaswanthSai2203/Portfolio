@@ -1,37 +1,43 @@
 import { readFile } from "node:fs/promises";
-import path from "node:path";
 
 import { NextResponse } from "next/server";
 
 import { profile } from "@/lib/data";
+import { resumeDownloadFilename } from "@/lib/resume-download-name";
+import { resolvePublicResumePdfPath } from "@/lib/resume";
 
 export async function GET() {
-  const filePath = path.join(
-    process.cwd(),
-    "public",
-    profile.resumePublicFilename,
-  );
+  const filePath = await resolvePublicResumePdfPath();
+
+  if (!filePath) {
+    return NextResponse.json(
+      {
+        error:
+          "Place exactly one .pdf file in the /public folder (no other PDFs).",
+      },
+      { status: 404 },
+    );
+  }
 
   try {
     const buffer = await readFile(filePath);
-    const safeName = profile.resumeDownloadFilename.replace(/[^\w.\-()+ ]/g, "_");
-    const isPdf = profile.resumePublicFilename.toLowerCase().endsWith(".pdf");
-    const contentType = isPdf
-      ? "application/pdf"
-      : "text/plain; charset=utf-8";
+    const safeName = resumeDownloadFilename(profile.name).replace(
+      /[^\w.\-()+ ]/g,
+      "_",
+    );
 
     return new NextResponse(buffer, {
       status: 200,
       headers: {
-        "Content-Type": contentType,
+        "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="${safeName}"`,
         "Cache-Control": "public, max-age=3600",
       },
     });
   } catch {
     return NextResponse.json(
-      { error: "Resume file not found. Add it to /public or update profile.resumePublicFilename." },
-      { status: 404 },
+      { error: "Could not read resume file." },
+      { status: 500 },
     );
   }
 }

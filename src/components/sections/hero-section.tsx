@@ -6,6 +6,7 @@ import Link from "next/link";
 import * as React from "react";
 
 import { profile, rotatingSkills } from "@/lib/data";
+import { resumeDownloadFilename } from "@/lib/resume-download-name";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 import { ParticleField } from "@/components/particle-field";
@@ -102,7 +103,7 @@ export function HeroSection() {
             <Button size="lg" variant="secondary" asChild>
               <a
                 href="/api/resume"
-                download={profile.resumeDownloadFilename}
+                download={resumeDownloadFilename(profile.name)}
               >
                 <Download className="h-4 w-4" />
                 Download resume

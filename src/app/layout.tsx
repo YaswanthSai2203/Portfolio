@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { profile } from "@/lib/data";
 
 import "./globals.css";
+
+const siteTitle = `${profile.name} — ${profile.title}`;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,8 +24,8 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL("https://example.com"),
   title: {
-    default: "Alex Morgan — Full Stack .NET Engineer",
-    template: "%s | Alex Morgan",
+    default: siteTitle,
+    template: `%s | ${profile.name}`,
   },
   description:
     "Senior full stack .NET engineer: ASP.NET Core, React, Angular, Azure, AWS, microservices, distributed systems, and production AI (LLM, RAG, OCR).",
@@ -38,17 +41,17 @@ export const metadata: Metadata = {
     "LLM",
     "RAG",
   ],
-  authors: [{ name: "Alex Morgan" }],
+  authors: [{ name: profile.name }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Alex Morgan — Full Stack .NET Engineer",
+    title: siteTitle,
     description:
       "Portfolio: scalable backends, cloud-native systems, and modern frontends across financial and healthcare domains.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alex Morgan — Full Stack .NET Engineer",
+    title: siteTitle,
     description:
       "Portfolio: scalable backends, cloud-native systems, and modern frontends.",
   },

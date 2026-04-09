@@ -1,6 +1,6 @@
 # Developer portfolio
 
-Premium, animated portfolio for a senior **Full Stack .NET Engineer** — Next.js (App Router), TypeScript, Tailwind CSS v4, Framer Motion, shadcn-style primitives (Radix), and Lucide icons. Dark mode is default; light mode is available from the header toggle.
+Premium, animated portfolio for a senior **Full Stack .NET Engineer** — Next.js (App Router), TypeScript, Tailwind CSS v4, Framer Motion, **React Three Fiber** (sitewide subtle 3D background), shadcn-style primitives (Radix), and Lucide icons. Dark mode is default; light mode is available from the header toggle. **`prefers-reduced-motion`** disables the WebGL layer and scroll progress bar.
 
 ## Folder structure
 

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 
+import { PortfolioShell } from "@/components/portfolio-shell";
 import { ThemeProvider } from "@/components/theme-provider";
 import { profile } from "@/lib/data";
 
@@ -75,7 +76,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${poppins.variable} min-h-dvh bg-background font-sans`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <PortfolioShell>{children}</PortfolioShell>
+        </ThemeProvider>
       </body>
     </html>
   );

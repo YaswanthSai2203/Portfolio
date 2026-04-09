@@ -5,6 +5,9 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/example",
   github: "https://github.com/example",
   location: "United States",
+  /** File in /public served via /api/resume with Content-Disposition: attachment */
+  resumePublicFilename: "alex-morgan-resume.txt",
+  resumeDownloadFilename: "Alex-Morgan-Resume.txt",
   summary:
     "Full stack engineer with 5+ years building scalable systems across financial and healthcare domains. I design resilient microservices, high-performance APIs, and polished web experiences—backed by strong DevOps practices and a track record of measurable impact.",
   yearsExperience: 5,

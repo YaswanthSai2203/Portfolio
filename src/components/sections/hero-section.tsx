@@ -100,7 +100,10 @@ export function HeroSection() {
               <Link href="#projects">View projects</Link>
             </Button>
             <Button size="lg" variant="secondary" asChild>
-              <a href="/alex-morgan-resume.txt" download>
+              <a
+                href="/api/resume"
+                download={profile.resumeDownloadFilename}
+              >
                 <Download className="h-4 w-4" />
                 Download resume
               </a>

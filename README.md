@@ -28,7 +28,7 @@ src/
     data.ts              # Copy: profile, skills, experience, projects
     utils.ts             # cn()
 public/
-  alex-morgan-resume.txt # Replace with your PDF; update Hero download href
+  alex-morgan-resume.txt # Replace with your file; hero uses /api/resume (see data.ts)
 ```
 
 ## Scripts
@@ -51,7 +51,7 @@ public/
 ## Personalization
 
 - Edit **`src/lib/data.ts`**: name, links, summary, skills, Raymond James / Wipro timeline, projects.
-- Replace **`public/alex-morgan-resume.txt`** with your resume (PDF recommended) and point the hero button to `/your-resume.pdf`.
+- Put your resume in **`public/`** and set **`profile.resumePublicFilename`** and **`profile.resumeDownloadFilename`** in `src/lib/data.ts`. The hero **Download resume** link hits **`/api/resume`**, which sets `Content-Disposition: attachment` so the browser saves the file (works for `.txt` and `.pdf`).
 
 ## Deployment
 

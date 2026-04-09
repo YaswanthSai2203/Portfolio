@@ -9,7 +9,7 @@ export function StarShower() {
   React.useEffect(() => {
     function onStar() {
       setBurst(true);
-      window.setTimeout(() => setBurst(false), 2200);
+      window.setTimeout(() => setBurst(false), 2800);
     }
     window.addEventListener("portfolio-star", onStar);
     return () => window.removeEventListener("portfolio-star", onStar);

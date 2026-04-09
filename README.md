@@ -30,6 +30,7 @@ src/
     data.ts              # Copy: profile, skills, experience, projects
     resume.ts            # Server: find single PDF in /public
     resume-download-name.ts
+    mailto-contact.ts    # Client mailto fallback when API not configured
     utils.ts             # cn()
 public/
   (exactly one .pdf — your resume; /api/resume picks it up automatically)
@@ -48,7 +49,7 @@ public/
 ## Environment setup
 
 1. **Node.js**: LTS (18.18+ or 20+ recommended for Next.js 16).
-2. **Contact form**: Copy `.env.example` to `.env.local` and set **`RESEND_API_KEY`** + **`CONTACT_FROM_EMAIL`** (see [Resend](https://resend.com)) so `POST /api/contact` sends mail to **`profile.email`** (or set **`CONTACT_TO_EMAIL`**). Alternatively set **`CONTACT_WEBHOOK_URL`** to POST JSON to Slack/Zapier/etc. Without env vars, the form shows an error with a **mailto** fallback.
+2. **Contact form**: Without server config, submit opens the visitor’s **mail client** with **to**, **subject**, and **body** prefilled (they tap Send). To send **silently** from the server, set **`RESEND_API_KEY`** + **`CONTACT_FROM_EMAIL`** in `.env.local` / Vercel (see [Resend](https://resend.com)); optional **`CONTACT_TO_EMAIL`** overrides **`profile.email`**. Or set **`CONTACT_WEBHOOK_URL`** for Slack/Zapier JSON.
 3. **Site URL for SEO**: In `src/app/layout.tsx` and `src/app/sitemap.ts`, replace `https://example.com` with your production domain (or read from `process.env.NEXT_PUBLIC_SITE_URL` if you prefer).
 
 ## Personalization

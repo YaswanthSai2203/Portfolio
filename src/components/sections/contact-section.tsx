@@ -5,6 +5,7 @@ import { AlertCircle, CheckCircle2, Github, Linkedin, Loader2, Mail, Send } from
 import * as React from "react";
 
 import { profile } from "@/lib/data";
+import { buildPortfolioContactMailto } from "@/lib/mailto-contact";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,8 @@ import { Textarea } from "@/components/ui/textarea";
 type SubmitState =
   | { kind: "idle" }
   | { kind: "sending" }
-  | { kind: "success" }
-  | { kind: "error"; message: string; showMailto?: boolean };
+  | { kind: "success"; via: "api" | "mailto" }
+  | { kind: "error"; message: string };
 
 export function ContactSection() {
   const reduced = useReducedMotion();
@@ -49,19 +50,34 @@ export function ContactSection() {
       };
 
       if (res.ok && data.ok) {
-        setState({ kind: "success" });
+        setState({ kind: "success", via: "api" });
         form.reset();
         window.setTimeout(() => setState({ kind: "idle" }), 8000);
         return;
       }
 
-      const showMailto = data.code === "NOT_CONFIGURED";
+      if (res.status === 503 && data.code === "NOT_CONFIGURED") {
+        const href = buildPortfolioContactMailto(
+          profile.email,
+          name,
+          email,
+          message,
+        );
+        const a = document.createElement("a");
+        a.href = href;
+        a.rel = "noopener noreferrer";
+        a.click();
+        setState({ kind: "success", via: "mailto" });
+        form.reset();
+        window.setTimeout(() => setState({ kind: "idle" }), 12000);
+        return;
+      }
+
       setState({
         kind: "error",
         message:
           data.error ??
           "Something went wrong. Please try again or use email below.",
-        showMailto,
       });
     } catch {
       setState({
@@ -70,8 +86,6 @@ export function ContactSection() {
       });
     }
   }
-
-  const mailtoHref = `mailto:${profile.email}?subject=${encodeURIComponent("Portfolio inquiry")}`;
 
   return (
     <section
@@ -90,8 +104,8 @@ export function ContactSection() {
             Let&apos;s build something reliable
           </h2>
           <p className="mt-3 max-w-2xl text-muted">
-            Send a message through the form (delivered to my inbox when email is
-            configured on the server) or reach out via the links.
+            Use the form — it sends via the server when configured, or opens your
+            email app with everything filled in so you can send in one tap.
           </p>
         </motion.div>
 
@@ -168,7 +182,11 @@ export function ContactSection() {
                     role="status"
                   >
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
-                    <span>Thanks — your message was sent. I&apos;ll get back to you soon.</span>
+                    <span>
+                      {state.via === "api"
+                        ? "Thanks — your message was sent. I will get back to you soon."
+                        : "Your email app should have opened with your message ready. Tap Send to deliver it."}
+                    </span>
                   </div>
                 )}
                 {state.kind === "error" && (
@@ -180,14 +198,6 @@ export function ContactSection() {
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                       <span>{state.message}</span>
                     </div>
-                    {state.showMailto && (
-                      <a
-                        href={mailtoHref}
-                        className="ml-6 text-sm font-medium text-primary underline-offset-4 hover:underline"
-                      >
-                        Open email to {profile.email}
-                      </a>
-                    )}
                   </div>
                 )}
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -248,7 +258,7 @@ export function ContactSection() {
                     {state.kind === "sending" ? "Sending…" : "Send message"}
                   </Button>
                   <p className="text-xs text-muted">
-                    Hosts need{" "}
+                    Optional: set{" "}
                     <code className="rounded bg-background/80 px-1 py-0.5 text-[11px]">
                       RESEND_API_KEY
                     </code>{" "}
@@ -256,8 +266,9 @@ export function ContactSection() {
                     <code className="rounded bg-background/80 px-1 py-0.5 text-[11px]">
                       CONTACT_FROM_EMAIL
                     </code>{" "}
-                    (see <code className="text-[11px]">.env.example</code>) or a{" "}
-                    <code className="text-[11px]">CONTACT_WEBHOOK_URL</code>.
+                    on the server to send silently (see{" "}
+                    <code className="text-[11px]">.env.example</code>
+                    ). Otherwise the form opens your mail app.
                   </p>
                 </form>
               </CardContent>

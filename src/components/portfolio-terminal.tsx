@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import * as React from "react";
 
 import { profile, projects } from "@/lib/data";
+import { appVersion } from "@/lib/app-version";
 
 type Line = { kind: "in" | "out" | "err"; text: string };
 
@@ -110,8 +111,15 @@ export function PortfolioTerminal() {
             "  theme <dark|light> — toggle site theme",
             "  resume            — download resume (same as hero)",
             "  joke              — tiny easter egg",
+            "  deps              — site dependency stack (package.json)",
+            "  specs             — fake-but-fun system spec",
+            "  hire              — copy mailto + LinkedIn to clipboard",
+            "  blueprint         — toggle blueprint grid overlay",
+            "  star              — thank-you animation (try it)",
             "  clear             — clear output",
             "  exit | quit       — close console",
+            "",
+            "Hotkeys (outside inputs): ` console · g blueprint grid",
           ].join("\n"),
         );
         break;
@@ -183,6 +191,53 @@ export function PortfolioTerminal() {
           "Why do programmers prefer dark mode?\nBecause light attracts bugs. (Also: fewer photons, more focus.)",
         );
         break;
+      case "deps":
+        out(
+          [
+            `portfolio@${appVersion}`,
+            "next · react · typescript · tailwindcss v4",
+            "framer-motion · three · @react-three/fiber · drei",
+            "radix-ui · lucide-react · resend (contact) · qrcode",
+          ].join("\n"),
+        );
+        break;
+      case "specs":
+        out(
+          [
+            "PORTFOLIO_SPEC v0.9 (tongue-in-cheek)",
+            "─────────────────────────────────────",
+            "Availability: 99.9% (when Vercel says so)",
+            "Latency to impress: <10s first scroll",
+            "Concurrency: one human, many tabs",
+            "Storage: mostly vibes + git",
+            "Compliance: recruiter-friendly, no blockchain",
+          ].join("\n"),
+        );
+        break;
+      case "hire": {
+        const mail = `mailto:${profile.email}?subject=${encodeURIComponent("Role discussion — " + profile.name)}`;
+        const text = `${profile.name}\n${profile.title}\n${profile.email}\n${profile.linkedin}`;
+        try {
+          await navigator.clipboard.writeText(text);
+          out(
+            `Copied to clipboard:\n${text}\n\nPrimary mailto (tap on mobile):\n${mail}`,
+          );
+        } catch {
+          err("Clipboard blocked — copy manually from the contact card.");
+        }
+        break;
+      }
+      case "blueprint":
+        window.dispatchEvent(new CustomEvent("portfolio-blueprint"));
+        out(
+          "Toggled blueprint grid (same as hotkey g outside inputs). Run again to turn off.",
+        );
+        break;
+      case "star": {
+        window.dispatchEvent(new CustomEvent("portfolio-star"));
+        out("★ ★ ★  Thanks for the energy — check the top of the page.");
+        break;
+      }
       case "clear":
         setLines([]);
         break;

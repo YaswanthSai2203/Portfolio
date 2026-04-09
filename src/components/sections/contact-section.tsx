@@ -8,6 +8,7 @@ import { profile } from "@/lib/data";
 import { buildPortfolioContactMailto } from "@/lib/mailto-contact";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
+import { ContactMailtoQr } from "@/components/contact-mailto-qr";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -120,20 +121,23 @@ export function ContactSection() {
                 <CardTitle className="text-lg">Direct links</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="flex items-center gap-3 rounded-xl border border-border/50 bg-background/30 p-4 text-sm transition-colors hover:border-primary/40"
-                >
-                  <Mail className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted">
-                      Email
-                    </p>
-                    <p className="font-medium text-foreground">
-                      {profile.email}
-                    </p>
-                  </div>
-                </a>
+                <div className="flex flex-col gap-3 rounded-xl border border-border/50 bg-background/30 p-4 transition-colors hover:border-primary/40 sm:flex-row sm:items-center">
+                  <ContactMailtoQr />
+                  <a
+                    href={`mailto:${profile.email}`}
+                    className="flex min-w-0 flex-1 items-center gap-3 text-sm"
+                  >
+                    <Mail className="h-5 w-5 shrink-0 text-primary sm:hidden" />
+                    <div className="min-w-0">
+                      <p className="text-xs uppercase tracking-wide text-muted">
+                        Email
+                      </p>
+                      <p className="break-all font-medium text-foreground">
+                        {profile.email}
+                      </p>
+                    </div>
+                  </a>
+                </div>
                 <a
                   href={profile.linkedin}
                   target="_blank"

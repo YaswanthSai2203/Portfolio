@@ -61,7 +61,8 @@ public/
 - **Deep link theme**: `?hue=250&accent=195&density=compact` applies on load and syncs when you change the customizer.
 - **Stack fingerprint**: `?stack=Azure,.NET` on `/` filters projects (AND logic). **Impact** (`#impact`) and **Recruiter FAQ** (`#recruiter-faq`) — edit `impactRows` / `recruiterFaq` in `data.ts`.
 - **Case study**: `/work/insurance-ai` — content in `insuranceAiCaseStudy`; **Konami** (↑↑↓↓←→←→BA outside inputs) shows a short toast.
-- **Portfolio console** (bottom-left terminal): **`** (backtick) toggles; commands `help`, `whoami`, `open projects`, `health`, `theme dark|light`, `resume`, `joke`. **Esc** closes.
+- **Portfolio console** (bottom-left terminal): **`** (backtick) toggles; commands include `help`, `deps`, `specs`, `hire` (clipboard), `blueprint` / hotkey **`g`** (grid overlay), `star` (confetti stars), plus `whoami`, `open`, `health`, etc. **Esc** closes.
+- **Contact**: **mailto QR** (scan to open email on phone).
 - Put **exactly one** file named **`*.pdf`** in **`public/`** (no other PDFs). **`GET /api/resume`** finds it at runtime and sends it as a download; the suggested filename is derived from **`profile.name`** (e.g. `Jane-Doe-Resume.pdf`).
 
 ## Deployment

@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { motion, useScroll, useSpring } from "framer-motion";
 import * as React from "react";
 
+import { BlueprintOverlay } from "@/components/blueprint-overlay";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const PortfolioSceneCanvas = dynamic(
@@ -39,7 +40,10 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
           aria-hidden
         />
       )}
-      <div className="relative z-[1]">{children}</div>
+      <div className="relative z-[1]">
+        <BlueprintOverlay />
+        {children}
+      </div>
     </>
   );
 }

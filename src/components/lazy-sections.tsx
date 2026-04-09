@@ -34,6 +34,22 @@ export const CertificationsSection = dynamic(
   { ssr: true, loading: () => <SectionSkeleton tall /> },
 );
 
+export const PhilosophySection = dynamic(
+  () =>
+    import("@/components/sections/philosophy-section").then((m) => ({
+      default: m.PhilosophySection,
+    })),
+  { ssr: true, loading: () => <SectionSkeleton /> },
+);
+
+export const ScalableSystemsSection = dynamic(
+  () =>
+    import("@/components/sections/scalable-systems-section").then((m) => ({
+      default: m.ScalableSystemsSection,
+    })),
+  { ssr: true, loading: () => <SectionSkeleton tall /> },
+);
+
 export const ProjectsSection = dynamic(
   () =>
     import("@/components/sections/projects-section").then((m) => ({

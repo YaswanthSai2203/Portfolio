@@ -116,7 +116,25 @@ export const experiences = [
   },
 ];
 
-export const projects = [
+export type ProjectDemoKind = "rag" | "api" | "dashboard" | "none";
+
+export type ProjectDetail = {
+  id: string;
+  title: string;
+  tagline: string;
+  stack: string[];
+  features: string[];
+  metrics: { label: string; value: string; detail: string }[];
+  detail: string;
+  problem: string;
+  /** Mini architecture diagram (monospace lines) */
+  architectureLines: string[];
+  techDecisions: { choice: string; rationale: string }[];
+  challenges: { challenge: string; solution: string }[];
+  demoKind: ProjectDemoKind;
+};
+
+export const projects: ProjectDetail[] = [
   {
     id: "insurance-ai",
     title: "AI Insurance Claims System",
@@ -134,6 +152,53 @@ export const projects = [
     ],
     detail:
       "End-to-end AI system combining document processing, vector search, and LLM orchestration with a focus on explainability and production scalability.",
+    problem:
+      "Claims analysts were drowning in unstructured documents and policy lookups; decisions were slow, inconsistent, and hard to audit for compliance.",
+    architectureLines: [
+      "  ┌─────────────┐     ┌──────────────┐     ┌─────────────────┐",
+      "  │  Upload /   │────▶│  OCR + norm  │────▶│  Vector index   │",
+      "  │  intake API │     │  pipeline    │     │  (policy RAG)   │",
+      "  └─────────────┘     └──────────────┘     └────────┬────────┘",
+      "         │                      │                    │",
+      "         │               ┌──────▼──────┐      ┌──────▼──────┐",
+      "         └──────────────▶│ Rules engine │◀─────│ LLM + guard │",
+      "                         └──────┬──────┘      │   rails     │",
+      "                                │             └─────────────┘",
+      "                         ┌──────▼──────┐",
+      "                         │ Workflow +  │",
+      "                         │ audit trail │",
+      "                         └─────────────┘",
+    ],
+    techDecisions: [
+      {
+        choice: "RAG over fine-tuning for policy Q&A",
+        rationale:
+          "Policies change often; retrieval keeps answers grounded in the latest corpus with citations for auditors.",
+      },
+      {
+        choice: "PostgreSQL + pgvector (or equivalent)",
+        rationale:
+          "Single operational store for structured claim data and embeddings simplifies backups and compliance boundaries.",
+      },
+      {
+        choice: "Async workers for OCR",
+        rationale:
+          "Decouples heavy document CPU from API latency and allows retries without blocking analysts.",
+      },
+    ],
+    challenges: [
+      {
+        challenge: "Hallucinations on niche policy clauses",
+        solution:
+          "Forced citation snippets, confidence thresholds, and human-in-the-loop for low-confidence answers.",
+      },
+      {
+        challenge: "PII in documents",
+        solution:
+          "Redaction pipeline before embedding; strict tenancy and encryption at rest for raw files.",
+      },
+    ],
+    demoKind: "rag",
   },
   {
     id: "job-tracker",
@@ -151,6 +216,49 @@ export const projects = [
     ],
     detail:
       "A full-stack application designed to simplify job search workflows with structured tracking, analytics, and insights.",
+    problem:
+      "Candidates lost visibility across many applications; no single place for stage, follow-ups, or SLA-style reminders.",
+    architectureLines: [
+      "  ┌──────────┐      ┌─────────────┐      ┌────────────────┐",
+      "  │ Next.js  │─────▶│  BFF / API  │─────▶│  ASP.NET Core  │",
+      "  │   UI     │◀─────│   (REST)    │◀─────│   services     │",
+      "  └──────────┘      └──────┬──────┘      └───────┬────────┘",
+      "                             │                     │",
+      "                      ┌──────▼──────┐      ┌───────▼────────┐",
+      "                      │ Redis cache │      │ SQL Server +   │",
+      "                      │ (sessions)  │      │ full-text idx  │",
+      "                      └─────────────┘      └────────────────┘",
+    ],
+    techDecisions: [
+      {
+        choice: "Next.js on the front",
+        rationale:
+          "App Router + server components where it helps; snappy UX for dashboards and filters.",
+      },
+      {
+        choice: "SQL Server full-text",
+        rationale:
+          "Native search across notes and job descriptions without running a second search cluster early on.",
+      },
+      {
+        choice: "Optimistic UI updates",
+        rationale:
+          "Kanban-style moves feel instant; reconcile on the server with clear error rollback.",
+      },
+    ],
+    challenges: [
+      {
+        challenge: "Stale board state across tabs",
+        solution:
+          "Lightweight polling or SignalR-style push for stage changes; version column on rows for conflict detection.",
+      },
+      {
+        challenge: "Heavy list queries",
+        solution:
+          "Cursor pagination, indexed filters, and selective projections for list views.",
+      },
+    ],
+    demoKind: "dashboard",
   },
   {
     id: "pdf-editor",
@@ -168,8 +276,74 @@ export const projects = [
     ],
     detail:
       "A scalable document processing system focused on performance, security, and real-time collaboration.",
+    problem:
+      "Regulated teams needed in-browser collaboration on large PDFs without corrupting print fidelity or leaking versions.",
+    architectureLines: [
+      "  ┌──────────┐     ┌────────────┐     ┌───────────────┐",
+      "  │ Angular  │────▶│  Web API   │────▶│  Blob storage │",
+      "  │  client  │     │  (stream)  │     │  + versions   │",
+      "  └────┬─────┘     └─────┬──────┘     └───────────────┘",
+      "       │                 │",
+      "       │           ┌─────▼─────┐",
+      "       └──────────▶│ SignalR   │◀──── presence + ops",
+      "                   │ hub       │",
+      "                   └───────────┘",
+    ],
+    techDecisions: [
+      {
+        choice: "Chunked streaming from API",
+        rationale:
+          "Keeps memory bounded on the server while supporting 200MB+ uploads and progressive load in the client.",
+      },
+      {
+        choice: "SignalR for co-editing",
+        rationale:
+          "First-class .NET integration and automatic fallback transports for corporate networks.",
+      },
+      {
+        choice: "Server-side render for print",
+        rationale:
+          "One source of truth for pixel-accurate output vs. what users see in the canvas.",
+      },
+    ],
+    challenges: [
+      {
+        challenge: "Memory spikes on huge files",
+        solution:
+          "Windowed page rendering, dispose of off-DOM buffers, and back-pressure on the upload pipeline.",
+      },
+      {
+        challenge: "Concurrent edits",
+        solution:
+          "Operational transforms or last-write-wins with explicit merge UI for conflict hotspots.",
+      },
+    ],
+    demoKind: "api",
   },
 ];
+
+export const engineeringPhilosophy = [
+  {
+    title: "Reliability over cleverness",
+    body: "Boring, observable systems beat clever hacks. I design for clear failure modes and fast recovery.",
+  },
+  {
+    title: "Measure before optimizing",
+    body: "Trace, log, and profile with real traffic. Optimization without data is guesswork.",
+  },
+  {
+    title: "Design for failure",
+    body: "Retries, idempotency, and backpressure are defaults in distributed systems—not stretch goals.",
+  },
+  {
+    title: "APIs as contracts",
+    body: "Versioning, schemas, and documentation keep teams aligned as services multiply.",
+  },
+  {
+    title: "Security and compliance by design",
+    body: "Data boundaries and audit trails are modeled early—not bolted on after launch.",
+  },
+] as const;
 
 export type CertificationCategory = "agile" | "cloud" | "experience";
 

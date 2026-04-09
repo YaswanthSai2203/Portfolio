@@ -7,7 +7,9 @@ import {
   CertificationsSection,
   ContactSection,
   ExperienceSection,
+  PhilosophySection,
   ProjectsSection,
+  ScalableSystemsSection,
   SkillsSection,
 } from "@/components/lazy-sections";
 
@@ -27,6 +29,8 @@ export default function HomePage() {
         <SkillsSection />
         <ExperienceSection />
         <CertificationsSection />
+        <PhilosophySection />
+        <ScalableSystemsSection />
         <ProjectsSection />
         <AISection />
         <ContactSection />

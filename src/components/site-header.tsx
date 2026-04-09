@@ -16,6 +16,8 @@ const nav = [
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
   { href: "#certifications", label: "Certs" },
+  { href: "#philosophy", label: "Values" },
+  { href: "#scalable-systems", label: "Systems" },
   { href: "#projects", label: "Projects" },
   { href: "#ai", label: "AI" },
   { href: "#contact", label: "Contact" },

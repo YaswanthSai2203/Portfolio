@@ -7,6 +7,7 @@ import * as React from "react";
 import { projects } from "@/lib/data";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
+import { ProjectDemoBlock } from "@/components/project-demos";
 import {
   Dialog,
   DialogContent,
@@ -44,8 +45,8 @@ export function ProjectsSection() {
             Selected work that ships
           </h2>
           <p className="mt-3 max-w-2xl text-muted">
-            Rich cards with stack badges, outcomes, and a detail modal for
-            deeper narrative—built for recruiter skim speed.
+            Deep dives: problem, architecture, trade-offs, metrics, and
+            interactive demos—one shared modal for stable hydration.
           </p>
         </motion.div>
 
@@ -56,8 +57,11 @@ export function ProjectsSection() {
               initial={reduced ? false : { opacity: 0, y: 22 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.07, duration: 0.45 }}
+              whileHover={
+                reduced ? undefined : { y: -6, transition: { duration: 0.25 } }
+              }
             >
-              <Card className="glass group flex h-full flex-col border-border/50 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10">
+              <Card className="glass group flex h-full flex-col border-border/50 transition-all duration-300 hover:border-primary/35 hover:shadow-xl hover:shadow-primary/[0.12]">
                 <CardHeader>
                   <CardTitle className="text-lg leading-snug">
                     {project.title}
@@ -67,7 +71,7 @@ export function ProjectsSection() {
                     {project.stack.map((s) => (
                       <span
                         key={s}
-                        className="rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary"
+                        className="rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary transition-colors group-hover:bg-primary/15"
                       >
                         {s}
                       </span>
@@ -87,7 +91,7 @@ export function ProjectsSection() {
                     {project.metrics.map((m) => (
                       <div
                         key={m.label}
-                        className="rounded-lg border border-border/40 bg-background/30 p-2 text-center"
+                        className="rounded-lg border border-border/40 bg-background/30 p-2 text-center transition-colors group-hover:border-primary/15"
                       >
                         <p className="font-display text-sm font-bold text-foreground">
                           {m.value}
@@ -126,7 +130,7 @@ export function ProjectsSection() {
         >
           <DialogContent
             key={detailId ?? "closed"}
-            className="max-h-[85vh] overflow-y-auto sm:max-w-lg"
+            className="max-h-[90vh] max-w-[calc(100%-2rem)] overflow-y-auto sm:max-w-2xl"
           >
             {detailProject ? (
               <>
@@ -134,38 +138,113 @@ export function ProjectsSection() {
                   <DialogTitle>{detailProject.title}</DialogTitle>
                   <DialogDescription>{detailProject.tagline}</DialogDescription>
                 </DialogHeader>
-                <div className="space-y-4 text-sm text-muted">
-                  <p className="text-foreground/90">{detailProject.detail}</p>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                      Stack
+
+                <div className="space-y-6 text-sm">
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Problem
+                    </h4>
+                    <p className="mt-2 leading-relaxed text-muted">
+                      {detailProject.problem}
                     </p>
-                    <div className="mt-2 flex flex-wrap gap-2">
+                  </section>
+
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Architecture
+                    </h4>
+                    <pre className="mt-2 overflow-x-auto rounded-xl border border-border/50 bg-background/70 p-3 text-[9px] leading-tight text-foreground/90">
+                      {detailProject.architectureLines.join("\n")}
+                    </pre>
+                  </section>
+
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Tech decisions
+                    </h4>
+                    <ul className="mt-2 space-y-3">
+                      {detailProject.techDecisions.map((d) => (
+                        <li
+                          key={d.choice}
+                          className="rounded-lg border border-border/40 bg-card/20 p-3"
+                        >
+                          <p className="font-medium text-foreground">
+                            {d.choice}
+                          </p>
+                          <p className="mt-1 text-muted">{d.rationale}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Metrics
+                    </h4>
+                    <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                      {detailProject.metrics.map((m) => (
+                        <div
+                          key={m.label}
+                          className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-center"
+                        >
+                          <p className="font-display text-lg font-bold text-foreground">
+                            {m.value}
+                          </p>
+                          <p className="text-[10px] font-medium uppercase text-muted">
+                            {m.label}
+                          </p>
+                          <p className="text-[10px] text-muted">{m.detail}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Challenges & solutions
+                    </h4>
+                    <ul className="mt-2 space-y-3">
+                      {detailProject.challenges.map((c) => (
+                        <li
+                          key={c.challenge}
+                          className="rounded-lg border border-border/40 p-3"
+                        >
+                          <p className="text-xs font-semibold text-amber-600 dark:text-amber-400">
+                            {c.challenge}
+                          </p>
+                          <p className="mt-1 text-muted">{c.solution}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Summary
+                    </h4>
+                    <p className="mt-2 text-muted">{detailProject.detail}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
                       {detailProject.stack.map((s) => (
                         <span
                           key={s}
-                          className="rounded-full border border-border/60 px-2 py-0.5 text-xs"
+                          className="rounded-full border border-border/60 px-2 py-0.5 text-xs text-foreground/90"
                         >
                           {s}
                         </span>
                       ))}
                     </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                      Outcomes
-                    </p>
-                    <ul className="mt-2 space-y-1">
-                      {detailProject.metrics.map((m) => (
-                        <li key={m.label}>
-                          <span className="font-medium text-foreground">
-                            {m.value}
-                          </span>{" "}
-                          {m.label} — {m.detail}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  </section>
+
+                  {detailProject.demoKind !== "none" && (
+                    <section>
+                      <h4 className="text-xs font-bold uppercase tracking-widest text-primary">
+                        Live demo
+                      </h4>
+                      <div className="mt-3">
+                        <ProjectDemoBlock kind={detailProject.demoKind} />
+                      </div>
+                    </section>
+                  )}
                 </div>
               </>
             ) : null}

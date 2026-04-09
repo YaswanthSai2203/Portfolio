@@ -20,11 +20,12 @@ export function AISection() {
     >
       <div
         ref={ref}
-        className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-accent/10 px-4 py-16 sm:px-8"
+        className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/12 via-background to-accent/12 px-4 py-16 shadow-[0_0_80px_-20px_oklch(0.72_0.19_250/0.35),0_0_60px_-24px_oklch(0.78_0.15_195/0.2)] sm:px-8"
       >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-primary/25 blur-3xl animate-pulse-glow" />
-          <div className="absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-accent/20 blur-3xl animate-pulse-glow [animation-delay:1.5s]" />
+          <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-primary/30 blur-3xl animate-pulse-glow" />
+          <div className="absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-accent/25 blur-3xl animate-pulse-glow [animation-delay:1.5s]" />
+          <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[100px]" />
         </div>
 
         <NodeBackdrop reduced={reduced} active={inView} />
@@ -55,7 +56,7 @@ export function AISection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1 + i * 0.08, duration: 0.45 }}
             >
-              <Card className="glass h-full border-primary/20 shadow-[0_0_40px_oklch(0.72_0.19_250/0.08)] transition-transform hover:-translate-y-0.5">
+              <Card className="glass h-full border-primary/25 shadow-[0_0_48px_-8px_oklch(0.72_0.19_250/0.15)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_0_56px_-6px_oklch(0.72_0.19_250/0.22)]">
                 <CardHeader>
                   <CardTitle className="text-base font-semibold text-foreground">
                     {item.title}

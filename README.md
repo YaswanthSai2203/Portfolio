@@ -16,7 +16,7 @@ src/
     api/resume/route.ts
   components/
     ui/                  # Button, Card, Dialog, Input, Label, Textarea
-    sections/            # Hero, About, Skills, Experience, Certs, Projects, AI, Contact
+    sections/            # + Philosophy, Scalable systems, Projects (rich modal + demos)
     lazy-sections.tsx    # next/dynamic wrappers + skeletons (lazy loading)
     site-header.tsx      # Nav, socials, theme toggle
     site-footer.tsx

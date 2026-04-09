@@ -223,23 +223,23 @@ export const impactRows = [
 export const recruiterFaq = [
   {
     q: "Work authorization?",
-    a: "Update this line with your status (e.g. US citizen, Green Card, H1B, etc.).",
+    a: "F1-STEM OPT",
   },
   {
     q: "Notice period?",
-    a: "Typically X weeks — confirm with your current employer policy.",
+    a: "Typically 2 weeks",
   },
   {
     q: "Remote / hybrid?",
-    a: "Open to remote-first or hybrid within [region]. Willing to travel occasionally for on-sites.",
+    a: "Open to remote-first or hybrid within United States. Willing to travel occasionally for on-sites.",
   },
   {
     q: "Compensation expectations?",
-    a: "Competitive with senior full-stack / backend roles in [market]. Happy to align after scope and level are clear.",
+    a: "Competitive with senior full-stack / backend roles in USA. Happy to align after scope and level are clear.",
   },
   {
     q: "What roles are you targeting?",
-    a: "Senior / staff full-stack .NET, platform engineering, or backend-heavy product teams with strong engineering culture.",
+    a: "Senior / Full-stack .NET, platform engineering, or backend-heavy product teams with strong engineering culture.",
   },
 ] as const;
 

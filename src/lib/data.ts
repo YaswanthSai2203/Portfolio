@@ -419,6 +419,100 @@ export const certifications = [
   },
 ] as const;
 
+export const readingList = [
+  {
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    type: "book" as const,
+    note: "Reference for distributed systems trade-offs and data modeling.",
+  },
+  {
+    title: "Building Microservices (2e)",
+    author: "Sam Newman",
+    type: "book" as const,
+    note: "Boundaries, deployment, and evolution of service architectures.",
+  },
+  {
+    title: "Microsoft Learn — Azure architecture",
+    author: "Microsoft",
+    type: "course" as const,
+    url: "https://learn.microsoft.com/en-us/azure/architecture/",
+    note: "Well-architected patterns I revisit before major design reviews.",
+  },
+  {
+    title: "Architecture Notes",
+    author: "Various",
+    type: "newsletter" as const,
+    url: "https://architecturenotes.co/",
+    note: "Short, visual breakdowns of real-world system designs.",
+  },
+] as const;
+
+export const nowUpdates = [
+  {
+    date: "2026-04",
+    text: "Deepening RAG evaluation: citation accuracy checks and cost caps per tenant.",
+  },
+  {
+    date: "2026-03",
+    text: "Sharpening AKS + GitOps patterns for zero-downtime API rollouts.",
+  },
+  {
+    date: "2026-02",
+    text: "Experimenting with structured logging conventions across .NET + frontends.",
+  },
+] as const;
+
+export const speakingAndWriting = [
+  {
+    title: "Internal tech talk — Idempotent message consumers",
+    venue: "Team brownbag",
+    year: "2025",
+    url: null as string | null,
+    kind: "talk" as const,
+  },
+  {
+    title: "README templates for microservices",
+    venue: "Engineering wiki",
+    year: "2024",
+    url: null as string | null,
+    kind: "writing" as const,
+  },
+] as const;
+
+export const openSourceHighlights = [
+  {
+    title: "Portfolio (this site)",
+    role: "Owner",
+    url: "https://github.com/YaswanthSai2203/Portfolio",
+    detail: "Next.js 16, R3F backdrop, contact API, SEO + JSON-LD.",
+  },
+  {
+    title: "Sample contributions",
+    role: "PRs / issues",
+    url: "https://github.com/YaswanthSai2203",
+    detail: "Replace with repos or PRs you want to highlight publicly.",
+  },
+] as const;
+
+export const showcaseSnippet = {
+  title: "Idempotent queue consumer (.NET)",
+  language: "csharp",
+  code: `// Process message at-least-once without duplicate side effects
+public async Task HandleAsync(ClaimSubmitted msg, CancellationToken ct)
+{
+    var key = $"claim:{msg.IdempotencyKey}";
+    if (!await _store.TryAcquireOnceAsync(key, TimeSpan.FromHours(24), ct))
+        return; // already processed
+
+    await _db.ExecuteInTransactionAsync(async () =>
+    {
+        await _claims.UpsertAsync(msg, ct);
+        await _bus.PublishAsync(new ClaimIndexed(msg.ClaimId), ct);
+    }, ct);
+}`,
+} as const;
+
 export const aiHighlights = [
   {
     title: "LLM Integration",

@@ -66,6 +66,22 @@ export const AISection = dynamic(
   { ssr: true, loading: () => <SectionSkeleton /> },
 );
 
+export const CredibilitySection = dynamic(
+  () =>
+    import("@/components/sections/credibility-section").then((m) => ({
+      default: m.CredibilitySection,
+    })),
+  { ssr: true, loading: () => <SectionSkeleton tall /> },
+);
+
+export const EngineeringLabSection = dynamic(
+  () =>
+    import("@/components/sections/engineering-lab-section").then((m) => ({
+      default: m.EngineeringLabSection,
+    })),
+  { ssr: true, loading: () => <SectionSkeleton tall /> },
+);
+
 export const ContactSection = dynamic(
   () =>
     import("@/components/sections/contact-section").then((m) => ({

@@ -10,10 +10,11 @@
   --color-card: oklch(0.18 0.025 260);
   --color-card-foreground: oklch(0.96 0.01 260);
   --color-border: oklch(0.32 0.04 260);
-  --color-primary: oklch(0.72 0.19 250);
+  /* Hues overridable by theme customizer (ThemeCustomizer sets --hue-primary / --hue-accent on html) */
+  --color-primary: oklch(0.72 0.19 var(--hue-primary, 250));
   --color-primary-foreground: oklch(0.13 0.02 260);
-  --color-accent: oklch(0.78 0.15 195);
-  --color-ring: oklch(0.72 0.19 250);
+  --color-accent: oklch(0.78 0.15 var(--hue-accent, 195));
+  --color-ring: oklch(0.72 0.19 var(--hue-primary, 250));
   --radius-lg: 1rem;
   --radius-md: 0.75rem;
   --radius-sm: 0.5rem;
@@ -26,15 +27,20 @@
   --color-card: oklch(1 0 0 / 0.72);
   --color-card-foreground: oklch(0.2 0.02 260);
   --color-border: oklch(0.88 0.02 260);
-  --color-primary: oklch(0.52 0.2 260);
+  --color-primary: oklch(0.52 0.2 var(--hue-primary, 260));
   --color-primary-foreground: oklch(0.99 0 0);
-  --color-accent: oklch(0.55 0.14 200);
-  --color-ring: oklch(0.52 0.2 260);
+  --color-accent: oklch(0.55 0.14 var(--hue-accent, 200));
+  --color-ring: oklch(0.52 0.2 var(--hue-primary, 260));
 }
 
 html {
   scroll-behavior: smooth;
   @apply bg-background;
+  font-size: var(--root-font-size, 16px);
+}
+
+html[data-density="compact"] {
+  --root-font-size: 15px;
 }
 
 body {

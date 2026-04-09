@@ -56,7 +56,8 @@ public/
 
 ## Personalization
 
-- Edit **`src/lib/data.ts`**: **`profile.name`** (used in hero, header wordmark, footer, tab title via `layout.tsx`), links, summary, skills, experience, **`certifications`** (badges, filters, skill tags), projects.
+- Edit **`src/lib/data.ts`**: **`profile.name`** (used in hero, header wordmark, footer, tab title via `layout.tsx`), links, summary, skills, experience, **`certifications`**, **`readingList`**, **`nowUpdates`**, **`speakingAndWriting`**, **`openSourceHighlights`**, **`showcaseSnippet`** (engineering lab), projects.
+- **Theme lab** (floating palette): accent hue presets + slider, cozy/compact density (persisted in `localStorage`). **Command palette**: press **`?`** (outside inputs) to filter-jump sections.
 - Put **exactly one** file named **`*.pdf`** in **`public/`** (no other PDFs). **`GET /api/resume`** finds it at runtime and sends it as a download; the suggested filename is derived from **`profile.name`** (e.g. `Jane-Doe-Resume.pdf`).
 
 ## Deployment

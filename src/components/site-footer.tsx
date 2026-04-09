@@ -7,6 +7,10 @@ export function SiteFooter() {
         © {new Date().getFullYear()} {profile.name}. Crafted with Next.js,
         Tailwind CSS, and Framer Motion.
       </p>
+      <p className="mt-2 text-[11px]">
+        Press <kbd className="rounded border border-border/50 px-1">?</kbd>{" "}
+        to jump to any section.
+      </p>
     </footer>
   );
 }

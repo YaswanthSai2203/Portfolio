@@ -1,11 +1,15 @@
+import { CommandPalette } from "@/components/command-palette";
 import { HeroSection } from "@/components/sections/hero-section";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { ThemeCustomizer } from "@/components/theme-customizer";
 import {
   AboutSection,
   AISection,
   CertificationsSection,
   ContactSection,
+  CredibilitySection,
+  EngineeringLabSection,
   ExperienceSection,
   PhilosophySection,
   ProjectsSection,
@@ -23,6 +27,7 @@ export default function HomePage() {
         Skip to main content
       </a>
       <SiteHeader />
+      <CommandPalette />
       <main id="main">
         <HeroSection />
         <AboutSection />
@@ -33,8 +38,11 @@ export default function HomePage() {
         <ScalableSystemsSection />
         <ProjectsSection />
         <AISection />
+        <CredibilitySection />
+        <EngineeringLabSection />
         <ContactSection />
       </main>
+      <ThemeCustomizer />
       <SiteFooter />
     </>
   );

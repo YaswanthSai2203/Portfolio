@@ -7,21 +7,12 @@ import Link from "next/link";
 import * as React from "react";
 
 import { profile } from "@/lib/data";
+import { siteNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 
-const nav = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#certifications", label: "Certs" },
-  { href: "#philosophy", label: "Values" },
-  { href: "#scalable-systems", label: "Systems" },
-  { href: "#projects", label: "Projects" },
-  { href: "#ai", label: "AI" },
-  { href: "#contact", label: "Contact" },
-];
+const nav = siteNav.filter((n) => n.href !== "#top");
 
 export function SiteHeader() {
   const { theme, setTheme, resolvedTheme } = useTheme();

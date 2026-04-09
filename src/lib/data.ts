@@ -1,24 +1,24 @@
 export const profile = {
-  name: "Alex Morgan",
+  name: "Sai Satish Sreerama",
   title: "Full Stack .NET Engineer",
-  email: "alex.morgan.dev@example.com",
-  linkedin: "https://www.linkedin.com/in/example",
-  github: "https://github.com/example",
+  email: "saisatishsreerama@gmail.com",
+  linkedin: "https://www.linkedin.com/in/saisatish-sreerama/",
+  github: "https://github.com/YaswanthSai2203",
   location: "United States",
   summary:
-    "Full stack engineer with 5+ years building scalable systems across financial and healthcare domains. I design resilient microservices, high-performance APIs, and polished web experiences—backed by strong DevOps practices and a track record of measurable impact.",
+    "I build systems that think and scale—engineering resilient microservices, high-performance APIs, and AI-driven workflows across financial and healthcare domains. Passionate about turning complex problems into reliable, real-world impact.",
   yearsExperience: 5,
   projectsShipped: 24,
-  systemsOptimized: 12,
+  systemsOptimized: 15,
 };
 
 export const rotatingSkills = [
   "C# & ASP.NET Core",
   "React & Angular",
   "Azure & AWS",
-  "Microservices",
-  "Distributed systems",
-  "LLM & RAG pipelines",
+  "Microservices Architecture",
+  "Distributed Systems",
+  "LLM & RAG Pipelines",
 ];
 
 export const skillCategories = [
@@ -27,44 +27,44 @@ export const skillCategories = [
     items: [
       { name: "C# / .NET", level: 95 },
       { name: "ASP.NET Core", level: 94 },
-      { name: "REST / gRPC APIs", level: 92 },
-      { name: "Microservices", level: 90 },
+      { name: "REST APIs", level: 92 },
+      { name: "Microservices", level: 92 },
     ],
   },
   {
     name: "Frontend",
     items: [
       { name: "React", level: 88 },
-      { name: "Angular", level: 85 },
+      { name: "Angular", level: 86 },
       { name: "TypeScript", level: 90 },
-      { name: "Performance UX", level: 86 },
+      { name: "UX Performance", level: 87 },
     ],
   },
   {
     name: "Cloud & DevOps",
     items: [
-      { name: "Azure", level: 92 },
-      { name: "AWS", level: 85 },
-      { name: "Docker / Kubernetes", level: 88 },
-      { name: "CI/CD (Azure DevOps)", level: 90 },
+      { name: "Azure", level: 93 },
+      { name: "AWS", level: 86 },
+      { name: "Docker / Kubernetes", level: 90 },
+      { name: "CI/CD (Azure DevOps)", level: 92 },
     ],
   },
   {
     name: "Databases",
     items: [
-      { name: "SQL Server", level: 90 },
-      { name: "PostgreSQL", level: 82 },
-      { name: "Redis / Caching", level: 85 },
-      { name: "Event stores", level: 78 },
+      { name: "SQL Server", level: 92 },
+      { name: "PostgreSQL", level: 84 },
+      { name: "Redis / Caching", level: 86 },
+      { name: "Event-driven storage", level: 80 },
     ],
   },
   {
     name: "AI / Modern Systems",
     items: [
-      { name: "LLM integration", level: 82 },
-      { name: "RAG pipelines", level: 80 },
-      { name: "OCR pipelines", level: 76 },
-      { name: "Observability", level: 88 },
+      { name: "LLM Integration", level: 85 },
+      { name: "RAG Pipelines", level: 83 },
+      { name: "OCR Pipelines", level: 80 },
+      { name: "Observability", level: 90 },
     ],
   },
 ];
@@ -74,19 +74,22 @@ export const experiences = [
     id: "rj",
     company: "Raymond James",
     role: "Full Stack .NET Engineer",
-    period: "2022 — Present",
+    period: "Aug 2024 — Present",
     current: true,
     summary:
-      "Leading delivery of secure, high-throughput services for wealth management platforms with strict compliance requirements.",
+      "Building high-throughput financial systems with strict compliance, focusing on scalability, automation, and reliability.",
     achievements: [
-      "Cut p95 API latency by ~60% via query tuning, caching, and async processing patterns.",
-      "Owned CI/CD hardening across multiple services; reduced failed releases by ~40%.",
-      "Partnered with architecture on event-driven boundaries and service decomposition.",
+      "Reduced manual processing by 60% by automating payment and document workflows using RESTful APIs.",
+      "Built microservices integrating Azure Service Bus and AWS SQS with retry and idempotency patterns.",
+      "Cut document processing time from 2 hours to under 10 minutes using OCR + parallel processing pipelines.",
+      "Designed scalable APIs and services deployed via Docker, Kubernetes (AKS), and CI/CD pipelines.",
+      "Improved SQL performance and API response times through indexing and query optimization.",
     ],
     tech: [
       "C#",
       "ASP.NET Core",
       "Azure",
+      "AWS",
       "SQL Server",
       "React",
       "Docker",
@@ -97,16 +100,18 @@ export const experiences = [
     id: "wipro",
     company: "Wipro",
     role: "Software Engineer",
-    period: "2019 — 2022",
+    period: "Jun 2019 — Aug 2022",
     current: false,
     summary:
-      "Built enterprise integrations and customer-facing portals with focus on reliability and maintainability.",
+      "Developed healthcare systems handling high-volume transactions with a focus on reliability and compliance.",
     achievements: [
-      "Delivered modular APIs consumed by multiple LOB teams; improved integration test coverage significantly.",
-      "Reduced incident MTTR through structured logging, dashboards, and on-call runbooks.",
-      "Mentored junior engineers on .NET fundamentals and code review practices.",
+      "Built microservices supporting ~12,000 daily transactions for patient workflows.",
+      "Improved batch processing time from 2 hours to 18 minutes via DB optimization.",
+      "Restored SSO authentication success rate from 72% to 99% by resolving Azure AD issues.",
+      "Implemented real-time notifications reducing response time from 30 minutes to under 5 minutes.",
+      "Deployed containerized apps using Docker and Azure DevOps CI/CD pipelines.",
     ],
-    tech: ["C#", ".NET", "Angular", "SQL Server", "Azure DevOps", "REST"],
+    tech: ["C#", ".NET", "Angular", "SQL Server", "Azure DevOps", "Docker"],
   },
 ];
 
@@ -114,73 +119,71 @@ export const projects = [
   {
     id: "insurance-ai",
     title: "AI Insurance Claims System",
-    tagline: "LLM-assisted adjudication with human-in-the-loop controls",
-    stack: ["C#", "ASP.NET Core", "Azure", "OpenAI", "PostgreSQL", "React"],
+    tagline: "AI-powered claims processing with RAG and automation",
+    stack: ["C#", "ASP.NET Core", "Azure", "LLMs", "PostgreSQL", "React"],
     features: [
-      "Document ingestion with OCR normalization and confidence scoring",
-      "RAG over policy corpora with citation-backed answers for analysts",
-      "Workflow engine for approvals, escalations, and audit trails",
+      "OCR-based document ingestion with intelligent preprocessing",
+      "RAG pipelines for policy-based claim validation",
+      "Automated claim summarization and fraud detection signals",
     ],
     metrics: [
-      { label: "Review time", value: "-35%", detail: "avg. analyst cycle" },
-      { label: "Accuracy lift", value: "+12%", detail: "post QA sampling" },
-      { label: "Availability", value: "99.95%", detail: "multi-region" },
+      { label: "Processing time", value: "-70%", detail: "automation impact" },
+      { label: "Accuracy", value: "+15%", detail: "AI-assisted decisions" },
+      { label: "Manual effort", value: "-50%", detail: "reduced workload" },
     ],
     detail:
-      "End-to-end platform combining deterministic rules with retrieval-augmented generation. Emphasis on explainability, PII handling, and cost-aware model routing for production workloads.",
+      "End-to-end AI system combining document processing, vector search, and LLM orchestration with a focus on explainability and production scalability.",
   },
   {
     id: "job-tracker",
     title: "Job Tracker App",
-    tagline: "Pipeline visibility for high-volume recruiting workflows",
+    tagline: "Smart job pipeline tracking and analytics",
     stack: ["Next.js", "TypeScript", "ASP.NET Core", "SQL Server", "Azure"],
     features: [
-      "Kanban boards with SLA timers and stakeholder notifications",
-      "Full-text search across candidates and roles",
-      "Role-based access with org-level tenancy",
+      "End-to-end job tracking lifecycle with analytics dashboard",
+      "Advanced filtering and search across applications",
+      "Recruiter interaction tracking and reminders",
     ],
     metrics: [
-      { label: "User adoption", value: "500+", detail: "weekly actives" },
-      { label: "Page load", value: "<1.2s", detail: "LCP p75" },
-      { label: "Data sync", value: "<200ms", detail: "p95 mutations" },
+      { label: "User productivity", value: "+40%", detail: "tracking efficiency" },
+      { label: "Response tracking", value: "100%", detail: "pipeline visibility" },
     ],
     detail:
-      "A pragmatic SaaS-style app focused on speed and clarity. Backend emphasizes clean domain boundaries; frontend leans on optimistic updates and resilient error states.",
+      "A full-stack application designed to simplify job search workflows with structured tracking, analytics, and insights.",
   },
   {
     id: "pdf-editor",
     title: "PDF Editor",
-    tagline: "In-browser collaboration for regulated document workflows",
+    tagline: "High-performance document editing and annotation",
     stack: ["Angular", "C#", "Web APIs", "Azure Blob", "SignalR"],
     features: [
-      "Layered annotations with version history",
-      "Server-side rendering for consistent print output",
-      "Real-time co-editing sessions with presence",
+      "Real-time document editing and annotations",
+      "Secure file storage and versioning",
+      "Digital signature integration",
     ],
     metrics: [
-      { label: "Doc size", value: "200+ MB", detail: "supported uploads" },
-      { label: "Concurrent users", value: "50+", detail: "per session peak" },
-      { label: "Crash rate", value: "-48%", detail: "after stability sprint" },
+      { label: "Performance", value: "+45%", detail: "optimized rendering" },
+      { label: "File handling", value: "200MB+", detail: "large docs supported" },
     ],
     detail:
-      "Heavy focus on memory-safe streaming, progressive loading, and conflict resolution. Integrated with existing identity providers and retention policies.",
+      "A scalable document processing system focused on performance, security, and real-time collaboration.",
   },
 ];
 
 export const aiHighlights = [
   {
-    title: "LLM integration",
+    title: "LLM Integration",
     description:
-      "Production patterns for prompts, guardrails, streaming responses, and fallback models.",
+      "Designing production-grade AI workflows with prompt engineering, guardrails, and cost-aware model usage.",
   },
   {
-    title: "RAG pipelines",
+    title: "RAG Pipelines",
     description:
-      "Chunking, embeddings, re-ranking, and evaluation loops tuned for domain corpora.",
+      "Building retrieval systems with embeddings, vector search, and domain-tuned ranking strategies.",
   },
   {
-    title: "OCR pipelines",
+    title: "OCR Pipelines",
     description:
-      "Preprocessing, deskew, and confidence thresholds feeding downstream automation.",
+      "Automating document workflows using OCR, preprocessing, and intelligent extraction pipelines.",
   },
 ];

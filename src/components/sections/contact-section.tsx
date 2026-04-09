@@ -258,6 +258,15 @@ export function ContactSection() {
                     {state.kind === "sending" ? "Sending…" : "Send message"}
                   </Button>
                   <p className="text-xs text-muted">
+                    <span className="font-medium text-foreground/80">
+                      Privacy:
+                    </span>{" "}
+                    Your name, email, and message are used only to reply to
+                    this inquiry. They are not sold or used for marketing. If
+                    the server is not configured, your mail app opens locally
+                    and nothing is stored on this site.
+                  </p>
+                  <p className="text-xs text-muted">
                     Optional: set{" "}
                     <code className="rounded bg-background/80 px-1 py-0.5 text-[11px]">
                       RESEND_API_KEY

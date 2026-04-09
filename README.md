@@ -50,7 +50,9 @@ public/
 
 1. **Node.js**: LTS (18.18+ or 20+ recommended for Next.js 16).
 2. **Contact form**: Without server config, submit opens the visitor’s **mail client** with **to**, **subject**, and **body** prefilled (they tap Send). To send **silently** from the server, set **`RESEND_API_KEY`** + **`CONTACT_FROM_EMAIL`** in `.env.local` / Vercel (see [Resend](https://resend.com)); optional **`CONTACT_TO_EMAIL`** overrides **`profile.email`**. Or set **`CONTACT_WEBHOOK_URL`** for Slack/Zapier JSON.
-3. **Site URL for SEO**: In `src/app/layout.tsx` and `src/app/sitemap.ts`, replace `https://example.com` with your production domain (or read from `process.env.NEXT_PUBLIC_SITE_URL` if you prefer).
+3. **Site URL for SEO**: Set **`NEXT_PUBLIC_SITE_URL`** (e.g. `https://your-site.vercel.app`) in Vercel / `.env.local`. It drives **`metadataBase`**, Open Graph URLs, **`sitemap.xml`**, **`robots.txt`**, and **JSON-LD**. If unset, the app falls back to `https://example.com` (replace before launch).
+4. **Health**: **`GET /api/health`** returns JSON with `ok`, `version` (short git SHA on Vercel), and `environment`.
+5. **Social preview**: Dynamic **`opengraph-image`** / **`twitter-image`** (1200×630) use your **`profile`** from `data.ts`.
 
 ## Personalization
 

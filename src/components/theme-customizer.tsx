@@ -4,11 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Palette, X } from "lucide-react";
 import * as React from "react";
 
+import {
+  applyDensity,
+  applyHues,
+  persistDensityLocal,
+  persistHuesLocal,
+  STORAGE_DENSITY,
+  STORAGE_HUE,
+} from "@/lib/theme-apply";
+import { syncThemeSearchParams } from "@/lib/theme-url";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-
-const STORAGE_HUE = "portfolio-hue-primary";
-const STORAGE_DENSITY = "portfolio-density";
 
 const PRESETS = [
   { label: "Indigo", primary: 250, accent: 195 },
@@ -17,23 +24,20 @@ const PRESETS = [
   { label: "Amber", primary: 75, accent: 45 },
 ] as const;
 
-function applyHues(primary: number, accent: number) {
-  document.documentElement.style.setProperty("--hue-primary", String(primary));
-  document.documentElement.style.setProperty("--hue-accent", String(accent));
+function clampHue(n: number) {
+  if (Number.isNaN(n) || n < 0 || n > 360) return null;
+  return n;
 }
 
-function persistBoth(primary: number, accent: number, setHue: (n: number) => void) {
+function persistBoth(
+  primary: number,
+  accent: number,
+  setHue: (n: number) => void,
+) {
   setHue(primary);
   applyHues(primary, accent);
-  localStorage.setItem(STORAGE_HUE, JSON.stringify({ primary, accent }));
-}
-
-function applyDensity(d: "cozy" | "compact") {
-  if (d === "compact") {
-    document.documentElement.setAttribute("data-density", "compact");
-  } else {
-    document.documentElement.removeAttribute("data-density");
-  }
+  persistHuesLocal(primary, accent);
+  syncThemeSearchParams({ hue: primary, accent });
 }
 
 export function ThemeCustomizer() {
@@ -42,33 +46,62 @@ export function ThemeCustomizer() {
   const [density, setDensity] = React.useState<"cozy" | "compact">("cozy");
 
   React.useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_HUE);
-    const d = localStorage.getItem(STORAGE_DENSITY) as "cozy" | "compact" | null;
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw) as { primary: number; accent: number };
-        if (
-          typeof parsed.primary === "number" &&
-          typeof parsed.accent === "number"
-        ) {
-          setHue(parsed.primary);
-          applyHues(parsed.primary, parsed.accent);
-        }
-      } catch {
-        const n = Number(raw);
-        if (!Number.isNaN(n)) {
-          setHue(n);
-          applyHues(n, (n + 45) % 360);
+    const sp = new URLSearchParams(window.location.search);
+    const urlHue = clampHue(Number(sp.get("hue")));
+    const urlAccent = clampHue(Number(sp.get("accent")));
+    const d = sp.get("density");
+    const urlDensity =
+      d === "compact" || d === "cozy" ? d : null;
+
+    if (urlHue !== null) {
+      const acc = urlAccent ?? (urlHue + 45) % 360;
+      setHue(urlHue);
+      applyHues(urlHue, acc);
+      persistHuesLocal(urlHue, acc);
+    } else if (urlAccent !== null) {
+      const prim = 250;
+      setHue(prim);
+      applyHues(prim, urlAccent);
+      persistHuesLocal(prim, urlAccent);
+    } else {
+      const raw = localStorage.getItem(STORAGE_HUE);
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw) as { primary: number; accent: number };
+          if (
+            typeof parsed.primary === "number" &&
+            typeof parsed.accent === "number"
+          ) {
+            setHue(parsed.primary);
+            applyHues(parsed.primary, parsed.accent);
+          }
+        } catch {
+          const n = Number(raw);
+          if (!Number.isNaN(n)) {
+            setHue(n);
+            applyHues(n, (n + 45) % 360);
+          }
         }
       }
     }
-    if (d === "compact" || d === "cozy") {
-      setDensity(d);
-      applyDensity(d);
+
+    if (urlDensity) {
+      setDensity(urlDensity);
+      applyDensity(urlDensity);
+      persistDensityLocal(urlDensity);
+    } else {
+      const stored = localStorage.getItem(STORAGE_DENSITY) as
+        | "cozy"
+        | "compact"
+        | null;
+      if (stored === "compact" || stored === "cozy") {
+        setDensity(stored);
+        applyDensity(stored);
+      }
     }
   }, []);
 
-  function persistHues(next: number) {
+  function persistHuesSlider(next: number) {
     const acc = (next + 45) % 360;
     persistBoth(next, acc, setHue);
   }
@@ -80,7 +113,8 @@ export function ThemeCustomizer() {
   function persistDensity(next: "cozy" | "compact") {
     setDensity(next);
     applyDensity(next);
-    localStorage.setItem(STORAGE_DENSITY, next);
+    persistDensityLocal(next);
+    syncThemeSearchParams({ density: next });
   }
 
   return (
@@ -108,7 +142,10 @@ export function ThemeCustomizer() {
               </Button>
             </div>
             <p className="mb-3 text-xs text-muted">
-              Accent hues use CSS variables; density tweaks base font size.
+              Accent hues use CSS variables; density tweaks base font size. URL:
+              <code className="mt-1 block truncate rounded bg-background/50 px-1 py-0.5 text-[10px]">
+                ?hue=250&accent=195&density=compact
+              </code>
             </p>
             <div className="space-y-3">
               <div>
@@ -138,7 +175,7 @@ export function ThemeCustomizer() {
                   min={0}
                   max={360}
                   value={hue}
-                  onChange={(e) => persistHues(Number(e.target.value))}
+                  onChange={(e) => persistHuesSlider(Number(e.target.value))}
                   className="mt-2 w-full accent-primary"
                 />
               </div>

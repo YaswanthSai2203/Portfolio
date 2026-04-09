@@ -58,6 +58,9 @@ public/
 
 - Edit **`src/lib/data.ts`**: **`profile.name`** (used in hero, header wordmark, footer, tab title via `layout.tsx`), links, summary, skills, experience, **`certifications`**, **`readingList`**, **`nowUpdates`**, **`speakingAndWriting`**, **`openSourceHighlights`**, **`showcaseSnippet`** (engineering lab), projects.
 - **Theme lab** (floating palette): accent hue presets + slider, cozy/compact density (persisted in `localStorage`). **Command palette**: press **`?`** (outside inputs) to filter-jump sections.
+- **Deep link theme**: `?hue=250&accent=195&density=compact` applies on load and syncs when you change the customizer.
+- **Stack fingerprint**: `?stack=Azure,.NET` on `/` filters projects (AND logic). **Impact** (`#impact`) and **Recruiter FAQ** (`#recruiter-faq`) — edit `impactRows` / `recruiterFaq` in `data.ts`.
+- **Case study**: `/work/insurance-ai` — content in `insuranceAiCaseStudy`; **Konami** (↑↑↓↓←→←→BA outside inputs) shows a short toast.
 - Put **exactly one** file named **`*.pdf`** in **`public/`** (no other PDFs). **`GET /api/resume`** finds it at runtime and sends it as a download; the suggested filename is derived from **`profile.name`** (e.g. `Jane-Doe-Resume.pdf`).
 
 ## Deployment

@@ -1,11 +1,19 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { Layers } from "lucide-react";
+import { ExternalLink, Layers } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 
-import { projects } from "@/lib/data";
+import {
+  projectMatchesStackTags,
+  projects,
+  stackFingerprintTags,
+  type StackFingerprintTag,
+} from "@/lib/data";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { cn } from "@/lib/utils";
 
 import { ProjectDemoBlock } from "@/components/project-demos";
 import {
@@ -18,15 +26,76 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+function parseStackParam(raw: string | null): Set<StackFingerprintTag> {
+  if (!raw?.trim()) return new Set();
+  const set = new Set<StackFingerprintTag>();
+  for (const part of raw.split(",").map((s) => s.trim())) {
+    if (stackFingerprintTags.includes(part as StackFingerprintTag)) {
+      set.add(part as StackFingerprintTag);
+    }
+  }
+  return set;
+}
+
+function serializeStackParam(tags: Set<StackFingerprintTag>): string {
+  return Array.from(tags).sort().join(",");
+}
+
 export function ProjectsSection() {
   const reduced = useReducedMotion();
   const ref = React.useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [detailOpen, setDetailOpen] = React.useState(false);
   const [detailId, setDetailId] = React.useState<string | null>(null);
+
+  const activeTags = React.useMemo(
+    () => parseStackParam(searchParams.get("stack")),
+    [searchParams],
+  );
+
+  const filteredProjects = React.useMemo(() => {
+    if (activeTags.size === 0) return projects;
+    return projects.filter((p) =>
+      projectMatchesStackTags(p.stack, activeTags),
+    );
+  }, [activeTags]);
+
   const detailProject = detailId
     ? projects.find((p) => p.id === detailId)
     : undefined;
+
+  function toggleTag(tag: StackFingerprintTag) {
+    const next = new Set(activeTags);
+    if (next.has(tag)) next.delete(tag);
+    else next.add(tag);
+    const params = new URLSearchParams(searchParams.toString());
+    const s = serializeStackParam(next);
+    if (s) params.set("stack", s);
+    else params.delete("stack");
+    const q = params.toString();
+    router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false });
+  }
+
+  function clearTags() {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("stack");
+    const q = params.toString();
+    router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false });
+  }
+
+  function copyShareUrl() {
+    const params = new URLSearchParams(searchParams.toString());
+    const s = serializeStackParam(activeTags);
+    if (s) params.set("stack", s);
+    else params.delete("stack");
+    const q = params.toString();
+    const url = `${window.location.origin}${pathname}${q ? `?${q}` : ""}`;
+    void navigator.clipboard.writeText(url);
+  }
 
   return (
     <section
@@ -45,18 +114,76 @@ export function ProjectsSection() {
             Selected work that ships
           </h2>
           <p className="mt-3 max-w-2xl text-muted">
-            Deep dives: problem, architecture, trade-offs, metrics, and
-            interactive demos—one shared modal for stable hydration.
+            Stack fingerprint: combine tags to show only matching projects.
+            URL updates for sharing (
+            <code className="text-[11px]">?stack=Azure,.NET</code>
+            ).
           </p>
         </motion.div>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {projects.map((project, i) => (
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.05 }}
+          className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+        >
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted">
+            Fingerprint
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {stackFingerprintTags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => toggleTag(tag)}
+                className={cn(
+                  "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                  activeTags.has(tag)
+                    ? "border-primary bg-primary/15 text-primary"
+                    : "border-border/60 bg-card/30 text-muted hover:border-primary/30",
+                )}
+              >
+                {tag}
+              </button>
+            ))}
+            {activeTags.size > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-8 text-xs"
+                onClick={clearTags}
+              >
+                Clear
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={() => void copyShareUrl()}
+            >
+              Copy filter URL
+            </Button>
+          </div>
+        </motion.div>
+
+        {filteredProjects.length === 0 && (
+          <p className="mt-8 text-center text-sm text-muted">
+            No projects match this combination — clear filters or try fewer
+            tags.
+          </p>
+        )}
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          {filteredProjects.map((project, i) => (
             <motion.div
               key={project.id}
+              layout
               initial={reduced ? false : { opacity: 0, y: 22 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.07, duration: 0.45 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.45 }}
               whileHover={
                 reduced ? undefined : { y: -6, transition: { duration: 0.25 } }
               }
@@ -103,18 +230,28 @@ export function ProjectsSection() {
                       </div>
                     ))}
                   </div>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="w-full border-border/70 group-hover:border-primary/40"
-                    onClick={() => {
-                      setDetailId(project.id);
-                      setDetailOpen(true);
-                    }}
-                  >
-                    View details
-                    <Layers className="h-4 w-4 opacity-70" />
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    {project.id === "insurance-ai" && (
+                      <Button variant="outline" size="sm" className="w-full" asChild>
+                        <Link href="/work/insurance-ai">
+                          Full case study
+                          <ExternalLink className="h-3.5 w-3.5 opacity-70" />
+                        </Link>
+                      </Button>
+                    )}
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="w-full border-border/70 group-hover:border-primary/40"
+                      onClick={() => {
+                        setDetailId(project.id);
+                        setDetailOpen(true);
+                      }}
+                    >
+                      View details
+                      <Layers className="h-4 w-4 opacity-70" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

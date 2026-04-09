@@ -134,6 +134,183 @@ export type ProjectDetail = {
   demoKind: ProjectDemoKind;
 };
 
+/** Tags for stack fingerprint filter on the home page */
+export const stackFingerprintTags = [
+  "Azure",
+  ".NET",
+  "React",
+  "Angular",
+  "AWS",
+  "PostgreSQL",
+  "Next.js",
+] as const;
+
+export type StackFingerprintTag = (typeof stackFingerprintTags)[number];
+
+export function projectMatchesStackTags(
+  stack: string[],
+  tags: Set<StackFingerprintTag>,
+): boolean {
+  if (tags.size === 0) return true;
+  const j = stack.map((s) => s.toLowerCase()).join(" ");
+  for (const tag of tags) {
+    let ok = false;
+    switch (tag) {
+      case "Azure":
+        ok = j.includes("azure");
+        break;
+      case ".NET":
+        ok = /\.net|asp\.net|c#/.test(j);
+        break;
+      case "React":
+        ok = j.includes("react");
+        break;
+      case "Angular":
+        ok = j.includes("angular");
+        break;
+      case "AWS":
+        ok = j.includes("aws");
+        break;
+      case "PostgreSQL":
+        ok = j.includes("postgres");
+        break;
+      case "Next.js":
+        ok = j.includes("next");
+        break;
+      default:
+        ok = false;
+    }
+    if (!ok) return false;
+  }
+  return true;
+}
+
+export const impactRows = [
+  {
+    role: "Raymond James — Full Stack .NET",
+    metric: "Manual processing time",
+    before: "High touch, spreadsheet-heavy",
+    after: "~60% reduction in manual steps",
+    measured:
+      "Workflow timing samples + ticket volume before/after automation rollout.",
+  },
+  {
+    role: "Raymond James — APIs & data",
+    metric: "Document processing",
+    before: "~2 hours end-to-end",
+    after: "<10 minutes (OCR + parallel pipelines)",
+    measured:
+      "P95 job duration from processing queue telemetry.",
+  },
+  {
+    role: "Wipro — Healthcare microservices",
+    metric: "Daily transaction throughput",
+    before: "Baseline cluster load",
+    after: "~12k transactions/day sustained",
+    measured:
+      "Service metrics + DB throughput dashboards.",
+  },
+  {
+    role: "Wipro — Auth reliability",
+    metric: "SSO success rate",
+    before: "72%",
+    after: "99%",
+    measured:
+      "Azure AD sign-in logs + app error rates.",
+  },
+] as const;
+
+export const recruiterFaq = [
+  {
+    q: "Work authorization?",
+    a: "Update this line with your status (e.g. US citizen, Green Card, H1B, etc.).",
+  },
+  {
+    q: "Notice period?",
+    a: "Typically X weeks — confirm with your current employer policy.",
+  },
+  {
+    q: "Remote / hybrid?",
+    a: "Open to remote-first or hybrid within [region]. Willing to travel occasionally for on-sites.",
+  },
+  {
+    q: "Compensation expectations?",
+    a: "Competitive with senior full-stack / backend roles in [market]. Happy to align after scope and level are clear.",
+  },
+  {
+    q: "What roles are you targeting?",
+    a: "Senior / staff full-stack .NET, platform engineering, or backend-heavy product teams with strong engineering culture.",
+  },
+] as const;
+
+export const insuranceAiCaseStudy = {
+  id: "insurance-ai",
+  title: "AI Insurance Claims System",
+  subtitle:
+    "RAG, OCR, and workflow automation for regulated claims — case study",
+  intro:
+    "End-to-end narrative of how we moved from manual document triage to grounded AI assistance with auditability. Names and figures are representative; tune copy to what you can disclose.",
+  timeline: [
+    {
+      phase: "Discovery",
+      period: "Weeks 1–3",
+      summary:
+        "Mapped analyst journeys, policy corpus sources, and compliance checkpoints. Defined non-negotiables: citations, retention, PII boundaries.",
+    },
+    {
+      phase: "MVP pipeline",
+      period: "Weeks 4–10",
+      summary:
+        "OCR + normalization workers, vector index over policy chunks, rules engine for hard gates, LLM path only when retrieval confidence cleared a bar.",
+    },
+    {
+      phase: "Hardening",
+      period: "Weeks 11–16",
+      summary:
+        "Evaluation sets for citation accuracy, cost caps per tenant, DLQs and replay for workers, dashboards for queue depth and model spend.",
+    },
+    {
+      phase: "Rollout",
+      period: "Weeks 17+",
+      summary:
+        "Phased enablement by LOB, human-in-the-loop for low-confidence, feedback loop into chunking and re-ranking.",
+    },
+  ],
+  sequenceDiagram: `
+Analyst UI          API              Workers           Vector DB / LLM
+   |                 |                  |                    |
+   |-- upload doc -->|                  |                    |
+   |                 |-- enqueue OCR -->|                    |
+   |                 |                  |-- embed chunks --->|
+   |                 |<-- status -------|                    |
+   |<-- draft -------|                  |                    |
+   |                 |-- RAG query ------------------------>|
+   |                 |<-- answer + citations ----------------|
+`.trim(),
+  architectureDeep: [
+    "  ┌────────────┐    ┌─────────────┐    ┌──────────────────┐",
+    "  │   Gateway  │───▶│ Claims API  │───▶│  Domain services │",
+    "  │  + authZ   │    │  (ASP.NET)  │    │  + outbox        │",
+    "  └────────────┘    └──────┬──────┘    └────────┬─────────┘",
+    "                           │                    │",
+    "                    ┌──────▼──────┐      ┌──────▼─────────┐",
+    "                    │  Bus /    │      │ PostgreSQL      │",
+    "                    │  queues   │      │ + vectors       │",
+    "                    └──────┬──────┘      └────────────────┘",
+    "                           │",
+    "                    ┌──────▼──────┐      ┌────────────────┐",
+    "                    │ OCR / NLP  │      │ LLM router     │",
+    "                    │ workers    │      │ (guardrailed)  │",
+    "                    └────────────┘      └────────────────┘",
+  ],
+  whatNext: [
+    "Tighter offline eval loops: golden sets per product line with regression gates in CI.",
+    "Multi-model routing: cheaper models for classification, premium only for synthesis.",
+    "Stronger lineage: document version → chunk → embedding id in every audit record.",
+    "Federated search if policies span multiple repositories with different ACLs.",
+  ],
+} as const;
+
 export const projects: ProjectDetail[] = [
   {
     id: "insurance-ai",
@@ -321,6 +498,10 @@ export const projects: ProjectDetail[] = [
     demoKind: "api",
   },
 ];
+
+export function getProjectById(id: string): ProjectDetail | undefined {
+  return projects.find((p) => p.id === id);
+}
 
 export const engineeringPhilosophy = [
   {

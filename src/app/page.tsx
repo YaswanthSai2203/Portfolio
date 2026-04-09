@@ -1,8 +1,7 @@
-import { CommandPalette } from "@/components/command-palette";
+import { Suspense } from "react";
+
 import { HeroSection } from "@/components/sections/hero-section";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { ThemeCustomizer } from "@/components/theme-customizer";
+import { SiteChrome } from "@/components/site-chrome";
 import {
   AboutSection,
   AISection,
@@ -11,39 +10,35 @@ import {
   CredibilitySection,
   EngineeringLabSection,
   ExperienceSection,
+  ImpactSection,
   PhilosophySection,
   ProjectsSection,
+  RecruiterFaqSection,
   ScalableSystemsSection,
   SkillsSection,
 } from "@/components/lazy-sections";
 
 export default function HomePage() {
   return (
-    <>
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
-      >
-        Skip to main content
-      </a>
-      <SiteHeader />
-      <CommandPalette />
+    <SiteChrome>
       <main id="main">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
         <ExperienceSection />
+        <ImpactSection />
         <CertificationsSection />
         <PhilosophySection />
         <ScalableSystemsSection />
-        <ProjectsSection />
+        <Suspense fallback={<div className="min-h-[40vh] border-t border-border/30" />}>
+          <ProjectsSection />
+        </Suspense>
         <AISection />
         <CredibilitySection />
         <EngineeringLabSection />
+        <RecruiterFaqSection />
         <ContactSection />
       </main>
-      <ThemeCustomizer />
-      <SiteFooter />
-    </>
+    </SiteChrome>
   );
 }

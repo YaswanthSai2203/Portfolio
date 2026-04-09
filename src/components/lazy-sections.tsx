@@ -26,6 +26,22 @@ export const ExperienceSection = dynamic(
   { ssr: true, loading: () => <SectionSkeleton tall /> },
 );
 
+export const ImpactSection = dynamic(
+  () =>
+    import("@/components/sections/impact-section").then((m) => ({
+      default: m.ImpactSection,
+    })),
+  { ssr: true, loading: () => <SectionSkeleton /> },
+);
+
+export const RecruiterFaqSection = dynamic(
+  () =>
+    import("@/components/sections/recruiter-faq-section").then((m) => ({
+      default: m.RecruiterFaqSection,
+    })),
+  { ssr: true, loading: () => <SectionSkeleton /> },
+);
+
 export const CertificationsSection = dynamic(
   () =>
     import("@/components/sections/certifications-section").then((m) => ({

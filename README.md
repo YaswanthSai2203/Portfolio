@@ -12,6 +12,8 @@ src/
     page.tsx             # Home page composition
     template.tsx         # Route-level page transitions
     robots.ts / sitemap.ts
+    api/contact/route.ts  # POST form → Resend or webhook
+    api/resume/route.ts
   components/
     ui/                  # Button, Card, Dialog, Input, Label, Textarea
     sections/            # Hero, About, Skills, Experience, Projects, AI, Contact
@@ -46,8 +48,7 @@ public/
 ## Environment setup
 
 1. **Node.js**: LTS (18.18+ or 20+ recommended for Next.js 16).
-2. **No secrets required** for the static marketing site. If you add a real contact API later, use:
-   - `CONTACT_WEBHOOK_URL` or your provider’s keys — never commit `.env.local`.
+2. **Contact form**: Copy `.env.example` to `.env.local` and set **`RESEND_API_KEY`** + **`CONTACT_FROM_EMAIL`** (see [Resend](https://resend.com)) so `POST /api/contact` sends mail to **`profile.email`** (or set **`CONTACT_TO_EMAIL`**). Alternatively set **`CONTACT_WEBHOOK_URL`** to POST JSON to Slack/Zapier/etc. Without env vars, the form shows an error with a **mailto** fallback.
 3. **Site URL for SEO**: In `src/app/layout.tsx` and `src/app/sitemap.ts`, replace `https://example.com` with your production domain (or read from `process.env.NEXT_PUBLIC_SITE_URL` if you prefer).
 
 ## Personalization

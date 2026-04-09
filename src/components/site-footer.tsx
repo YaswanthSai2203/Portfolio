@@ -9,7 +9,9 @@ export function SiteFooter() {
       </p>
       <p className="mt-2 text-[11px]">
         Press <kbd className="rounded border border-border/50 px-1">?</kbd>{" "}
-        to jump to any section.
+        to jump to any section ·{" "}
+        <kbd className="rounded border border-border/50 px-1">`</kbd>{" "}
+        opens the dev console.
       </p>
     </footer>
   );

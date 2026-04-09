@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { CommandPalette } from "@/components/command-palette";
 import { KonamiEasterEgg } from "@/components/konami-easter-egg";
+import { PortfolioTerminal } from "@/components/portfolio-terminal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeCustomizer } from "@/components/theme-customizer";
@@ -17,6 +18,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       </a>
       <SiteHeader />
       <CommandPalette />
+      <PortfolioTerminal />
       {children}
       <ThemeCustomizer />
       <SiteFooter />

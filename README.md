@@ -63,6 +63,7 @@ public/
 - **Case study**: `/work/insurance-ai` — content in `insuranceAiCaseStudy`; **Konami** (↑↑↓↓←→←→BA outside inputs) shows a short toast.
 - **Portfolio console** (bottom-left terminal): **`** (backtick) toggles; commands include `help`, `deps`, `specs`, `hire` (clipboard), `blueprint` / hotkey **`g`** (grid overlay), `star` (confetti stars), plus `whoami`, `open`, `health`, etc. **Esc** closes.
 - **Contact**: **mailto QR** (scan to open email on phone).
+- **Recruiter mode** (default **on**): home shows only Hero, About, Skills, Experience, Certs, Projects, Contact. Header toggle **Recruiter** / **Full site**; persisted as `localStorage` key `portfolio-recruiter-mode`. Full mode restores nav, terminal, theme lab, Konami, 3D backdrop, blueprint, and all sections.
 - Put **exactly one** file named **`*.pdf`** in **`public/`** (no other PDFs). **`GET /api/resume`** finds it at runtime and sends it as a download; the suggested filename is derived from **`profile.name`** (e.g. `Jane-Doe-Resume.pdf`).
 
 ## Deployment

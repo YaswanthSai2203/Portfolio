@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Moon, Sun } from "lucide-react";
+import { Briefcase, Github, Linkedin, Mail, Moon, Sparkles, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import * as React from "react";
@@ -10,14 +10,24 @@ import { profile } from "@/lib/data";
 import { siteNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
+import {
+  filterNavForRecruiterMode,
+  useRecruiterMode,
+} from "@/components/recruiter-mode";
 import { Button } from "@/components/ui/button";
 
-const nav = siteNav.filter((n) => n.href !== "#top");
+const baseNav = siteNav.filter((n) => n.href !== "#top");
 
 export function SiteHeader() {
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const { recruiterMode, toggleRecruiterMode } = useRecruiterMode();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
+
+  const nav = React.useMemo(
+    () => filterNavForRecruiterMode(baseNav, recruiterMode),
+    [recruiterMode],
+  );
 
   return (
     <motion.header
@@ -46,6 +56,33 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-1 sm:gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={toggleRecruiterMode}
+            className="h-9 gap-1.5 border-border/70 px-2.5 text-xs font-medium md:inline-flex"
+            aria-pressed={recruiterMode}
+            title={
+              recruiterMode
+                ? "Recruiter view: core sections only. Click for full portfolio."
+                : "Full portfolio. Click for recruiter-focused view."
+            }
+          >
+            {recruiterMode ? (
+              <>
+                <Briefcase className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Recruiter</span>
+                <span className="sm:hidden">Rec</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Full site</span>
+                <span className="sm:hidden">Full</span>
+              </>
+            )}
+          </Button>
           <Button variant="ghost" size="icon" asChild className="hidden sm:inline-flex">
             <a href={`mailto:${profile.email}`} aria-label="Email">
               <Mail className="h-4 w-4" />

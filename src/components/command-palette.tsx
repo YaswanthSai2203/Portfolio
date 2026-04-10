@@ -7,6 +7,11 @@ import { siteNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
 import {
+  filterNavForRecruiterMode,
+  useRecruiterMode,
+} from "@/components/recruiter-mode";
+
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -15,9 +20,15 @@ import {
 } from "@/components/ui/dialog";
 
 export function CommandPalette() {
+  const { recruiterMode } = useRecruiterMode();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const navItems = React.useMemo(
+    () => filterNavForRecruiterMode(siteNav, recruiterMode),
+    [recruiterMode],
+  );
 
   React.useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -47,13 +58,13 @@ export function CommandPalette() {
 
   const filtered = React.useMemo(() => {
     const s = q.trim().toLowerCase();
-    if (!s) return [...siteNav];
-    return siteNav.filter(
+    if (!s) return [...navItems];
+    return navItems.filter(
       (n) =>
         n.label.toLowerCase().includes(s) ||
         n.href.toLowerCase().includes(s),
     );
-  }, [q]);
+  }, [q, navItems]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

@@ -5,6 +5,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import * as React from "react";
 
 import { BlueprintOverlay } from "@/components/blueprint-overlay";
+import { useRecruiterMode } from "@/components/recruiter-mode";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const PortfolioSceneCanvas = dynamic(
@@ -17,6 +18,7 @@ const PortfolioSceneCanvas = dynamic(
 
 export function PortfolioShell({ children }: { children: React.ReactNode }) {
   const reduced = useReducedMotion();
+  const { recruiterMode } = useRecruiterMode();
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 80,
@@ -24,16 +26,18 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
     restDelta: 0.001,
   });
 
+  const showEffects = !recruiterMode && !reduced;
+
   return (
     <>
-      {!reduced && <PortfolioSceneCanvas />}
-      {!reduced && (
+      {showEffects && <PortfolioSceneCanvas />}
+      {showEffects && (
         <div
           className="pointer-events-none fixed inset-0 z-0 bg-background/72 backdrop-blur-[2px]"
           aria-hidden
         />
       )}
-      {!reduced && (
+      {showEffects && (
         <motion.div
           className="pointer-events-none fixed left-0 right-0 top-0 z-[35] h-[3px] origin-left bg-gradient-to-r from-primary via-accent to-primary"
           style={{ scaleX: smoothProgress }}
@@ -41,7 +45,7 @@ export function PortfolioShell({ children }: { children: React.ReactNode }) {
         />
       )}
       <div className="relative z-[1]">
-        <BlueprintOverlay />
+        {showEffects && <BlueprintOverlay />}
         {children}
       </div>
     </>

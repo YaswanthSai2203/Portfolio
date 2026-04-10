@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 
 import { JsonLd } from "@/components/json-ld";
 import { PortfolioShell } from "@/components/portfolio-shell";
+import { RecruiterModeProvider } from "@/components/recruiter-mode";
 import { ThemeProvider } from "@/components/theme-provider";
 import { profile } from "@/lib/data";
 import { getSiteUrl } from "@/lib/site";
@@ -84,7 +85,9 @@ export default function RootLayout({
       >
         <JsonLd />
         <ThemeProvider>
-          <PortfolioShell>{children}</PortfolioShell>
+          <RecruiterModeProvider>
+            <PortfolioShell>{children}</PortfolioShell>
+          </RecruiterModeProvider>
         </ThemeProvider>
       </body>
     </html>
